@@ -1,4 +1,4 @@
-package io.dtechs.core.auth.dto.token
+package com.gamestore.gamestorebackendkotlin.auth.dto.token
 
 data class UserTempTokenOutput(
     val username: String,

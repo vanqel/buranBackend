@@ -1,4 +1,4 @@
-package io.dtechs.core.auth.config
+package com.gamestore.gamestorebackendkotlin.auth.config
 
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys

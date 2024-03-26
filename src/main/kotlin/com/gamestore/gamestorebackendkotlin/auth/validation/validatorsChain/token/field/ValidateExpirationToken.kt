@@ -1,12 +1,12 @@
-package io.dtechs.core.auth.validation.validatorsChain.token.field
+package com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.token.field
 
-import io.dtechs.core.auth.errors.ValidationError
-import io.dtechs.core.auth.utils.JwtUtils
-import io.dtechs.core.auth.validation.ValidationProps
-import io.dtechs.core.auth.validation.ValidatorInterface
-import io.dtechs.core.extensions.isNull
+import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
+import com.gamestore.gamestorebackendkotlin.auth.utils.JwtUtils
+import com.gamestore.gamestorebackendkotlin.auth.validation.ValidationProps
+import com.gamestore.gamestorebackendkotlin.auth.validation.ValidatorInterface
+import com.gamestore.gamestorebackendkotlin.extensions.isNull
 import org.springframework.stereotype.Component
-import java.util.*
+import java.util.Date
 
 @Component
 class ValidateExpirationToken(private val jwtUtils: JwtUtils) : ValidatorInterface<String> {

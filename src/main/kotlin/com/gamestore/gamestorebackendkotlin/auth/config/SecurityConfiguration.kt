@@ -1,4 +1,4 @@
-package io.dtechs.core.auth.config
+package com.gamestore.gamestorebackendkotlin.auth.config
 
 import io.jsonwebtoken.security.Keys
 import org.springframework.boot.context.properties.EnableConfigurationProperties

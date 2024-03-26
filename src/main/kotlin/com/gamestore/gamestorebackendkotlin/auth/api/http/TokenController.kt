@@ -1,10 +1,10 @@
-package io.dtechs.core.auth.api.http
+package com.gamestore.gamestorebackendkotlin.auth.api.http
 
+import com.gamestore.gamestorebackendkotlin.auth.dto.token.RefreshTokenInput
+import com.gamestore.gamestorebackendkotlin.auth.dto.token.TokenOutput
+import com.gamestore.gamestorebackendkotlin.auth.dto.token.TokenValidationOutput
+import com.gamestore.gamestorebackendkotlin.auth.services.token.ITokenService
 import com.github.michaelbull.result.getOrThrow
-import io.dtechs.core.auth.dto.token.RefreshTokenInput
-import io.dtechs.core.auth.dto.token.TokenOutput
-import io.dtechs.core.auth.dto.token.TokenValidationOutput
-import io.dtechs.core.auth.services.token.ITokenService
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.http.ResponseEntity

@@ -1,21 +1,18 @@
-package io.dtechs.core.auth.dto.users
+package com.gamestore.gamestorebackendkotlin.auth.dto.users
 
+import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
+import com.gamestore.gamestorebackendkotlin.auth.validation.ChainValidate
+import com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.users.field.ValidateEmailField
+import com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.users.field.ValidateLoginField
+import com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.users.field.ValidatePasswordField
+import com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.users.field.ValidatePhoneRussiaField
 import com.github.michaelbull.result.Err
-import io.dtechs.core.auth.errors.ValidationError
-import io.dtechs.core.auth.validation.ChainValidate
-import io.dtechs.core.auth.validation.validatorsChain.users.field.ValidateEmailField
-import io.dtechs.core.auth.validation.validatorsChain.users.field.ValidateLoginField
-import io.dtechs.core.auth.validation.validatorsChain.users.field.ValidatePasswordField
-import io.dtechs.core.auth.validation.validatorsChain.users.field.ValidatePhoneRussiaField
 
 data class UserCreateInput(
     val username: String,
     val password: String,
     val phone: String,
     val email: String,
-    val snils: String,
-    val refid: String,
-    var roles: List<Long>,
 ) {
     fun validate(): Err<ValidationError>? {
         return ChainValidate<String>()

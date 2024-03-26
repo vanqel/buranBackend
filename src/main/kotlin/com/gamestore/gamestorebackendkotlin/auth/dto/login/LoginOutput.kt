@@ -1,6 +1,6 @@
-package io.dtechs.core.auth.dto.login
+package com.gamestore.gamestorebackendkotlin.auth.dto.login
 
-import io.dtechs.core.auth.dto.users.UserOutput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserOutput
 
 data class LoginOutput(
     val userDto: UserOutput,

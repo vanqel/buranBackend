@@ -1,6 +1,6 @@
-package io.dtechs.core.auth.exceptions
+package com.gamestore.gamestorebackendkotlin.auth.exceptions
 
-import io.dtechs.core.auth.errors.ErrorType
+import com.gamestore.gamestorebackendkotlin.auth.errors.ErrorType
 
 interface IExError {
     val message: String

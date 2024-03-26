@@ -1,9 +1,8 @@
-package io.dtechs.core.auth.models.roles.table
+package com.gamestore.gamestorebackendkotlin.auth.models.roles.table
 
 object ConstantRoles {
     const val ADMIN = "ADMIN"
-    const val DOCTOR = "DOCTOR"
-    const val LOGIN = "LOGIN"
+    const val USER = "USER"
 }
 
 enum class RolesEnum(
@@ -11,6 +10,5 @@ enum class RolesEnum(
     val constantRole: String,
 ) {
     ADMIN(id = 1, constantRole = ConstantRoles.ADMIN),
-    DOCTOR(id = 2, constantRole = ConstantRoles.DOCTOR),
-    LOGIN(id = 3, constantRole = ConstantRoles.LOGIN),
+    USER(id = 1, constantRole = ConstantRoles.USER),
 }

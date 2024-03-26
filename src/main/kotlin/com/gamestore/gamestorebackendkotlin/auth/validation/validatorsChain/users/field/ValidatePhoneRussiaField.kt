@@ -1,8 +1,8 @@
-package io.dtechs.core.auth.validation.validatorsChain.users.field
+package com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.users.field
 
-import io.dtechs.core.auth.errors.ValidationError
-import io.dtechs.core.auth.validation.ValidationProps
-import io.dtechs.core.auth.validation.ValidatorInterface
+import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
+import com.gamestore.gamestorebackendkotlin.auth.validation.ValidationProps
+import com.gamestore.gamestorebackendkotlin.auth.validation.ValidatorInterface
 
 class ValidatePhoneRussiaField : ValidatorInterface<String> {
     override fun valid(arg: String?): ValidationError? {

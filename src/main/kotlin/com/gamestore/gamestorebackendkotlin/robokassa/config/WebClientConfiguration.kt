@@ -1,4 +1,4 @@
-package com.gamestore.gamestorebackendkotlin.balance.config
+package com.gamestore.gamestorebackendkotlin.robokassa.config
 
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate
 @Configuration
 class WebClientConfiguration {
     @Bean
-    fun webclient(): RestTemplate{
+    fun webclient(): RestTemplate {
         return RestTemplateBuilder().build()
     }
 }

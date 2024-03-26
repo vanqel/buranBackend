@@ -1,13 +1,12 @@
-package io.dtechs.core.auth.services.security.app
+package com.gamestore.gamestorebackendkotlin.auth.services.security.app
 
-import io.dtechs.core.auth.errors.AuthError
-import io.dtechs.core.auth.models.roles.table.ConstantRoles
-import io.dtechs.core.auth.utils.JwtUtils
+import com.gamestore.gamestorebackendkotlin.auth.dto.login.LoginInput
+import com.gamestore.gamestorebackendkotlin.auth.errors.AuthError
+import com.gamestore.gamestorebackendkotlin.auth.utils.JwtUtils
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -19,7 +18,6 @@ class AppAuthenticationManager(
     private val passwordEncoder: PasswordEncoder,
     private val jwtUtils: JwtUtils,
 ) : AuthenticationManager {
-
     @Throws(AuthenticationException::class)
     override fun authenticate(authentication: Authentication): Authentication {
         val password = authentication.credentials.toString()
@@ -30,7 +28,7 @@ class AppAuthenticationManager(
         return UsernamePasswordAuthenticationToken(
             user.username,
             user.password,
-            listOf(SimpleGrantedAuthority(ConstantRoles.LOGIN)),
+            user.authorities,
         )
     }
 
@@ -47,14 +45,16 @@ class AppAuthenticationManager(
     }
 
     @Throws(AuthenticationException::class)
-    fun authenticateTemp(token: String): Authentication {
-        val username = jwtUtils.getSubject(token)
-        val user = userService.loadUserByUsername(username)
-        val principal = User(user.username, "", listOf(SimpleGrantedAuthority(ConstantRoles.LOGIN)))
+    fun authenticateFirst(body: LoginInput): Authentication {
+        val password = body.password
+        val user = userService.loadUserByUsername(body.username)
+        if (!passwordEncoder.matches(password, user.password)) {
+            throw AuthError()
+        }
         return UsernamePasswordAuthenticationToken(
-            principal,
-            token,
-            principal.authorities,
+            user.username,
+            user.password,
+            user.authorities,
         )
     }
 }

@@ -1,8 +1,8 @@
-package io.dtechs.core.auth.config
+package com.gamestore.gamestorebackendkotlin.auth.config
 
-import io.dtechs.core.auth.filter.JWTAuthorizationFilter
-import io.dtechs.core.auth.services.security.app.AppAuthenticationManager
-import io.dtechs.core.auth.services.security.auth.AuthProvider
+import com.gamestore.gamestorebackendkotlin.auth.filter.JWTAuthorizationFilter
+import com.gamestore.gamestorebackendkotlin.auth.services.security.app.AppAuthenticationManager
+import com.gamestore.gamestorebackendkotlin.auth.services.security.auth.AuthProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -27,22 +27,17 @@ class WebConfig(
         return http
             .cors { }
             .csrf { it.disable() }
-            .rememberMe {
-                it
-                    .disable()
-            }
             .sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/actuator/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/user/register", "/auth/login").permitAll()
                     .requestMatchers(HttpMethod.GET, "/token/validate", "/token/validateUser").authenticated()
-                    .requestMatchers(HttpMethod.POST, "/token/refresh").authenticated()
                     .requestMatchers(HttpMethod.OPTIONS).authenticated()
                     .requestMatchers(HttpMethod.GET, "/auth/me").authenticated()
-                    .requestMatchers(HttpMethod.POST, "/auth/setRole").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/kassa/**").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/useroperations").authenticated()
                     .anyRequest().permitAll()
             }
             .addFilter(

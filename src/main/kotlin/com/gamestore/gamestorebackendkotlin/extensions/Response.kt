@@ -1,10 +1,13 @@
-package io.dtechs.core.extensions
+package com.gamestore.gamestorebackendkotlin.extensions
 
-import io.dtechs.core.auth.config.SecurityProperties
+import com.gamestore.gamestorebackendkotlin.auth.config.SecurityProperties
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletResponse
 
-fun HttpServletResponse.setTokens(access: String, refresh: String) {
+fun HttpServletResponse.setTokens(
+    access: String,
+    refresh: String,
+) {
     this.addHeader(SecurityProperties.REFRESH_HEADER_STRING, refresh)
     this.addHeader(SecurityProperties.HEADER_STRING, SecurityProperties.TOKEN_PREFIX_ACCESS + access)
 

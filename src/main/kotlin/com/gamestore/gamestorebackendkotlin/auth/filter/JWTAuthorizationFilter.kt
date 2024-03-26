@@ -1,8 +1,7 @@
-package io.dtechs.core.auth.filter
+package com.gamestore.gamestorebackendkotlin.auth.filter
 
-import io.dtechs.core.auth.config.SecurityProperties
-import io.dtechs.core.auth.services.security.auth.AuthProvider
-import io.dtechs.core.extensions.isNotNull
+import com.gamestore.gamestorebackendkotlin.auth.config.SecurityProperties
+import com.gamestore.gamestorebackendkotlin.auth.services.security.auth.AuthProvider
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.Cookie
@@ -17,9 +16,7 @@ import java.io.IOException
 class JWTAuthorizationFilter(
     authManager: AuthenticationManager,
     private val authProvider: AuthProvider,
-
 ) : BasicAuthenticationFilter(authManager) {
-
     @Throws(IOException::class, ServletException::class)
     override fun doFilterInternal(
         req: HttpServletRequest,
@@ -29,17 +26,9 @@ class JWTAuthorizationFilter(
         val header = req.getHeader(SecurityProperties.HEADER_STRING)
         val cookie: Cookie? = req.cookies?.firstOrNull { it.name.equals(SecurityProperties.ACCESS_COOKIE_STRING) }
 
-        if (cookie == null && header == null || header.startsWith(SecurityProperties.TOKEN_PREFIX_ACCESS).not()) {
+        if (cookie == null && (header == null || header.startsWith(SecurityProperties.TOKEN_PREFIX_ACCESS).not())) {
             chain.doFilter(req, res)
             return
-        }
-
-        // this need ???
-        if (cookie.isNotNull() && header.isNotNull()) {
-            if (cookie!!.value != header.substringAfter(SecurityProperties.TOKEN_PREFIX_ACCESS)) {
-                chain.doFilter(req, res)
-                return
-            }
         }
 
         header?.let {
@@ -52,7 +41,6 @@ class JWTAuthorizationFilter(
         cookie?.let {
             SecurityContextHolder.getContext().authentication =
                 authProvider.getAuthentication(it.value)
-            println(SecurityContextHolder.getContext().authentication.principal)
             chain.doFilter(req, res)
             return
         }

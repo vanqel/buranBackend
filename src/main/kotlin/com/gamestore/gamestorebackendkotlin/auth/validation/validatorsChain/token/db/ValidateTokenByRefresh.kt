@@ -1,10 +1,10 @@
-package io.dtechs.core.auth.validation.validatorsChain.token.db
+package com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.token.db
 
-import io.dtechs.core.auth.errors.ValidationError
-import io.dtechs.core.auth.repository.AuthRepository
-import io.dtechs.core.auth.validation.ValidationProps
-import io.dtechs.core.auth.validation.ValidatorInterface
-import io.dtechs.core.extensions.isNull
+import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
+import com.gamestore.gamestorebackendkotlin.auth.repository.AuthRepository
+import com.gamestore.gamestorebackendkotlin.auth.validation.ValidationProps
+import com.gamestore.gamestorebackendkotlin.auth.validation.ValidatorInterface
+import com.gamestore.gamestorebackendkotlin.extensions.isNull
 import org.springframework.stereotype.Component
 
 @Component
@@ -18,10 +18,11 @@ class ValidateTokenByRefresh(val authRepository: AuthRepository) : ValidatorInte
             )
         }
         if (!authRepository.existRefreshToken(arg!!)) {
-            err = ValidationError(
-                ValidationProps.VALIDATION_MSG_TOKEN,
-                mapOf("Проверка токена на наличие" to "Токен не найден"),
-            )
+            err =
+                ValidationError(
+                    ValidationProps.VALIDATION_MSG_TOKEN,
+                    mapOf("Проверка токена на наличие" to "Токен не найден"),
+                )
         }
         return err
     }

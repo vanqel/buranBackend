@@ -1,12 +1,10 @@
-package io.dtechs.core.auth.api.http
+package com.gamestore.gamestorebackendkotlin.auth.api.http
 
+import com.gamestore.gamestorebackendkotlin.auth.dto.login.LoginInput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserTokenOutput
+import com.gamestore.gamestorebackendkotlin.auth.services.security.auth.IAuthService
+import com.gamestore.gamestorebackendkotlin.auth.utils.JwtUtils
 import com.github.michaelbull.result.getOrThrow
-import io.dtechs.core.auth.dto.authorization.FrmrInfoInput
-import io.dtechs.core.auth.dto.login.LoginInput
-import io.dtechs.core.auth.dto.token.UserTempTokenOutput
-import io.dtechs.core.auth.dto.users.UserTokenOutput
-import io.dtechs.core.auth.services.security.auth.IAuthService
-import io.dtechs.core.auth.utils.JwtUtils
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpHeaders
@@ -21,24 +19,12 @@ class AuthController(
     private val authService: IAuthService,
     private val jwtUtils: JwtUtils,
 ) {
-
     @PostMapping("login")
     fun loginfirst(
         @RequestBody body: LoginInput,
         response: HttpServletResponse,
-    ): ResponseEntity<UserTempTokenOutput> {
-        return ok(authService.authenticateFirst(body, response).getOrThrow())
-    }
-
-    @PostMapping("setRole")
-    fun loginfull(
-        @RequestHeader(name = HttpHeaders.AUTHORIZATION) token: String,
-        @RequestBody input: FrmrInfoInput,
-        response: HttpServletResponse,
     ): ResponseEntity<UserTokenOutput> {
-        return ok(
-            authService.authenticateFully(token, response, input).getOrThrow(),
-        )
+        return ok(authService.authenticateFirst(body, response).getOrThrow())
     }
 
     @PostMapping("logout")

@@ -1,6 +1,6 @@
-package io.dtechs.core.auth.api.http
+package com.gamestore.gamestorebackendkotlin.auth.api.http
 
-import io.dtechs.core.auth.errors.CommonError
+import com.gamestore.gamestorebackendkotlin.auth.errors.CommonError
 import org.springframework.http.HttpStatus
 
 data class HttpExceptionResponse(

@@ -1,6 +1,6 @@
-package io.dtechs.core.auth.models.roles.table
+package com.gamestore.gamestorebackendkotlin.auth.models.roles.table
 
-import io.dtechs.core.auth.ExtendedLongIdTable
+import com.gamestore.gamestorebackendkotlin.config.ExtendedLongIdTable
 import org.jetbrains.exposed.sql.Column
 
 object RoleTable : ExtendedLongIdTable(name = "roles") {

@@ -1,7 +1,7 @@
-package io.dtechs.core.auth.dto.users
+package com.gamestore.gamestorebackendkotlin.auth.dto.users
 
-import io.dtechs.core.auth.models.roles.table.RolesEnum
-import io.dtechs.core.auth.models.users.UserEntity
+import com.gamestore.gamestorebackendkotlin.auth.models.roles.table.RolesEnum
+import com.gamestore.gamestorebackendkotlin.auth.models.users.UserEntity
 
 class UserOutput(
     val id: Long,
@@ -9,8 +9,6 @@ class UserOutput(
     val roles: List<RolesEnum>,
     val phone: String,
     val email: String,
-    val snils: String,
-    val refid: String,
     val isBlocked: Boolean,
 ) {
     constructor(u: UserEntity) : this(
@@ -19,8 +17,6 @@ class UserOutput(
         u.roles.map { it.roleName },
         u.phone,
         u.email,
-        u.snils,
-        u.refid,
         u.isBlocked,
     )
 }

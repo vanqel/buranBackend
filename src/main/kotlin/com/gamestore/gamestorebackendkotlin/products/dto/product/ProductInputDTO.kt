@@ -1,13 +1,10 @@
-package com.gamestore.gamestorebackendkotlin.products.dto
-
-import com.gamestore.gamestorebackendkotlin.products.model.product.table.ProductTable
-import org.jetbrains.exposed.sql.Column
+package com.gamestore.gamestorebackendkotlin.products.dto.product
 
 data class ProductInputDTO(
-        var id: Long?,
-        val title : String,
-        val logotype: Long?,
-        val price: Long,
-        val description: String? = null
+    val title: String,
+    val logotype: Long?,
+    val price: Long,
+    val description: String? = null,
+    val category: String,
+    val link: String,
 )
-

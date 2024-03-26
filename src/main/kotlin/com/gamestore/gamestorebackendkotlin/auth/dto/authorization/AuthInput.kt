@@ -1,6 +1,6 @@
-package io.dtechs.core.auth.dto.authorization
+package com.gamestore.gamestorebackendkotlin.auth.dto.authorization
 
-import io.dtechs.core.auth.models.users.UserEntity
+import com.gamestore.gamestorebackendkotlin.auth.models.users.UserEntity
 
 data class AuthInput(
     val userEntity: UserEntity,

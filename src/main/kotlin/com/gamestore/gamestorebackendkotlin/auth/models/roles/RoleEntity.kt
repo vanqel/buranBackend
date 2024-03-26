@@ -1,11 +1,11 @@
 @file:Suppress("unused")
 
-package io.dtechs.core.auth.models.roles
+package com.gamestore.gamestorebackendkotlin.auth.models.roles
 
-import io.dtechs.core.auth.ExtendedLongEntity
-import io.dtechs.core.auth.models.roles.table.RoleTable
-import io.dtechs.core.auth.models.users.UserEntity
-import io.dtechs.core.auth.models.users.table.UsersRolesTable
+import com.gamestore.gamestorebackendkotlin.auth.models.roles.table.RoleTable
+import com.gamestore.gamestorebackendkotlin.auth.models.users.UserEntity
+import com.gamestore.gamestorebackendkotlin.auth.models.users.table.UsersRolesTable
+import com.gamestore.gamestorebackendkotlin.config.ExtendedLongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 

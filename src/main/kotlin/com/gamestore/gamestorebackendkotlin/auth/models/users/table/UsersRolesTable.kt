@@ -1,7 +1,8 @@
-package io.dtechs.core.auth.models.users.table
+package com.gamestore.gamestorebackendkotlin.auth.models.users.table
 
-import io.dtechs.core.auth.models.roles.table.RoleTable
-import org.jetbrains.exposed.sql.*
+import com.gamestore.gamestorebackendkotlin.auth.models.roles.table.RoleTable
+import org.jetbrains.exposed.sql.ReferenceOption
+import org.jetbrains.exposed.sql.Table
 
 object UsersRolesTable : Table(name = "users_roles") {
     val user =

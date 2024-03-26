@@ -1,6 +1,6 @@
-package io.dtechs.core.auth.models.users.table
+package com.gamestore.gamestorebackendkotlin.auth.models.users.table
 
-import io.dtechs.core.auth.ExtendedLongIdTable
+import com.gamestore.gamestorebackendkotlin.config.ExtendedLongIdTable
 
 object UserTable : ExtendedLongIdTable(name = "users") {
     val username = varchar("username", length = 100)
@@ -10,10 +10,6 @@ object UserTable : ExtendedLongIdTable(name = "users") {
     val phone = varchar("phone", length = 100)
 
     val email = varchar("email", length = 100)
-
-    var snils = varchar("SNILS", length = 11)
-
-    var refid = varchar("refid", length = 20)
 
     var isBlocked = bool("isBlocked").default(false)
 

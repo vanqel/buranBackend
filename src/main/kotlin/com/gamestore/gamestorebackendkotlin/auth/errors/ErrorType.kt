@@ -1,4 +1,4 @@
-package io.dtechs.core.auth.errors
+package com.gamestore.gamestorebackendkotlin.auth.errors
 
 enum class ErrorType {
     VALIDATION,

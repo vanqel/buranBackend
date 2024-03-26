@@ -1,4 +1,4 @@
-package io.dtechs.core.auth.dto.authorization
+package com.gamestore.gamestorebackendkotlin.auth.dto.authorization
 
 data class AuthOutput(
     val uid: Long,

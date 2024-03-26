@@ -1,16 +1,18 @@
-package io.dtechs.core.auth.repository
+package com.gamestore.gamestorebackendkotlin.auth.repository
 
-import io.dtechs.core.auth.dto.users.UserBlockOutput
-import io.dtechs.core.auth.dto.users.UserChangePasswordInput
-import io.dtechs.core.auth.dto.users.UserChangePasswordOutput
-import io.dtechs.core.auth.dto.users.UserCreateInput
-import io.dtechs.core.auth.dto.users.UserOutput
-import io.dtechs.core.auth.dto.users.UserUpdateInput
-import io.dtechs.core.auth.models.users.UserEntity
-import io.dtechs.core.auth.models.users.table.UserTable
-import io.dtechs.core.auth.models.users.table.UsersRolesTable
-import io.dtechs.core.extensions.exists
-import org.jetbrains.exposed.sql.*
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserBlockOutput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserChangePasswordInput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserChangePasswordOutput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserCreateInput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserOutput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserUpdateInput
+import com.gamestore.gamestorebackendkotlin.auth.models.users.UserEntity
+import com.gamestore.gamestorebackendkotlin.auth.models.users.table.UserTable
+import com.gamestore.gamestorebackendkotlin.auth.models.users.table.UsersRolesTable
+import com.gamestore.gamestorebackendkotlin.extensions.exists
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -21,50 +23,57 @@ class UsersRepository(
     val passwordEncoder: PasswordEncoder,
 ) {
     fun save(body: UserCreateInput): UserOutput {
-        val newUserEntity = UserEntity.new {
-            username = body.username
-            password = passwordEncoder.encode(body.password)
-            phone = body.phone
-            email = body.email
-            snils = body.snils
-            refid = body.refid
-        }
-
-        body.roles.map {
-                r ->
-            UsersRolesTable.insert {
-                it[user] = newUserEntity.id
-                it[role] = r
+        val newUserEntity =
+            transaction {
+                UserEntity.new {
+                    username = body.username
+                    password = passwordEncoder.encode(body.password)
+                    phone = body.phone
+                    email = body.email
+                }
             }
+
+        UsersRolesTable.insert {
+            it[user] = newUserEntity.id
+            it[role] = 2
         }
 
         return newUserEntity.toDTO()
     }
 
-    fun existUserByUsername(username: String): Boolean = UserEntity.find {
-        UserTable.username eq username
-    }.exists()
+    fun existUserByUsername(username: String): Boolean =
+        UserEntity.find {
+            UserTable.username eq username
+        }.exists()
 
-    fun existUserByEmail(email: String): Boolean = UserEntity.find {
-        UserTable.email eq email
-    }.exists()
+    fun existUserByEmail(email: String): Boolean =
+        UserEntity.find {
+            UserTable.email eq email
+        }.exists()
 
-    fun existUserById(id: Long): Boolean = UserEntity.find {
-        UserTable.id eq id
-    }.exists()
+    fun existUserById(id: Long): Boolean =
+        UserEntity.find {
+            UserTable.id eq id
+        }.exists()
 
-    fun findUserByUsername(username: String): UserEntity? = UserEntity.find {
-        UserTable.username eq username
-    }.firstOrNull()
+    fun findUserByUsername(username: String): UserEntity? =
+        UserEntity.find {
+            UserTable.username eq username
+        }.firstOrNull()
 
-    fun findUserById(id: Long): UserEntity? = UserEntity.find {
-        UserTable.id eq id
-    }.firstOrNull()
+    fun findUserById(id: Long): UserEntity? =
+        UserEntity.find {
+            UserTable.id eq id
+        }.firstOrNull()
 
-    fun compareIdAndUsername(username: String, id: Long): Boolean = findUserById(id)
-        ?.let {
-            it.username == username
-        } ?: false
+    fun compareIdAndUsername(
+        username: String,
+        id: Long,
+    ): Boolean =
+        findUserById(id)
+            ?.let {
+                it.username == username
+            } ?: false
 
     fun updateUser(body: UserUpdateInput): UserOutput {
         UserTable.update({ UserTable.id eq body.id }) {

@@ -1,4 +1,4 @@
-package io.dtechs.core.auth.validation
+package com.gamestore.gamestorebackendkotlin.auth.validation
 
 /**
  * Хранилище значений и регулярных выражений для валидаторовв

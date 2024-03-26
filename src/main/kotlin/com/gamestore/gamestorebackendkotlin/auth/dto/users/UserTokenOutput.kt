@@ -1,7 +1,7 @@
-package io.dtechs.core.auth.dto.users
+package com.gamestore.gamestorebackendkotlin.auth.dto.users
 
-import io.dtechs.core.auth.dto.token.TokenOutput
-import io.dtechs.core.auth.models.users.UserEntity
+import com.gamestore.gamestorebackendkotlin.auth.dto.token.TokenOutput
+import com.gamestore.gamestorebackendkotlin.auth.models.users.UserEntity
 
 data class UserTokenOutput(
     val userOutput: UserOutput,

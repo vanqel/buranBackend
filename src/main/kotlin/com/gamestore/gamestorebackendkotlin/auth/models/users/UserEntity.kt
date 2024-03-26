@@ -1,10 +1,10 @@
-package io.dtechs.core.auth.models.users
+package com.gamestore.gamestorebackendkotlin.auth.models.users
 
-import io.dtechs.core.auth.ExtendedLongEntity
-import io.dtechs.core.auth.dto.users.UserOutput
-import io.dtechs.core.auth.models.roles.RoleEntity
-import io.dtechs.core.auth.models.users.table.UserTable
-import io.dtechs.core.auth.models.users.table.UsersRolesTable
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserOutput
+import com.gamestore.gamestorebackendkotlin.auth.models.roles.RoleEntity
+import com.gamestore.gamestorebackendkotlin.auth.models.users.table.UserTable
+import com.gamestore.gamestorebackendkotlin.auth.models.users.table.UsersRolesTable
+import com.gamestore.gamestorebackendkotlin.config.ExtendedLongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
@@ -85,8 +85,6 @@ class UserEntity(id: EntityID<Long>) : ExtendedLongEntity(id, UserTable) {
     var password by UserTable.password
     var phone by UserTable.phone
     var email by UserTable.email
-    var snils by UserTable.snils
-    var refid by UserTable.refid
     var roles by RoleEntity via UsersRolesTable
     var isBlocked by UserTable.isBlocked
 

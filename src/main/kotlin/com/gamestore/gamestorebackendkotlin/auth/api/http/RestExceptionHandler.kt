@@ -1,10 +1,9 @@
-package io.dtechs.core.auth.api.http
+package com.gamestore.gamestorebackendkotlin.auth.api.http
 
-import io.dtechs.core.auth.errors.AuthError
-import io.dtechs.core.auth.errors.CommonError
-import io.dtechs.core.auth.errors.GeneralError
-import io.dtechs.core.auth.errors.ValidationError
-import org.apache.logging.log4j.kotlin.Logging
+import com.gamestore.gamestorebackendkotlin.auth.errors.AuthError
+import com.gamestore.gamestorebackendkotlin.auth.errors.CommonError
+import com.gamestore.gamestorebackendkotlin.auth.errors.GeneralError
+import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -36,8 +35,6 @@ class RestExceptionHandler : ResponseEntityExceptionHandler() {
             .status(exc.httpStatusFromType())
             .body(HttpExceptionResponse(exc))
     }
-
-    companion object : Logging
 }
 
 fun CommonError.httpStatusFromType(): HttpStatus {

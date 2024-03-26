@@ -1,21 +1,37 @@
-package com.gamestore.gamestorebackendkotlin.balance.model.history
-
+package com.gamestore.gamestorebackendkotlin.robokassa.model
 import com.gamestore.gamestorebackendkotlin.config.ExtendedLongEntity
-import com.gamestore.gamestorebackendkotlin.auth.models.users.table.UserTable
-import com.gamestore.gamestorebackendkotlin.balance.dto.OperationOutputDTO
-import com.gamestore.gamestorebackendkotlin.balance.model.history.table.HistoryOperation
-import com.gamestore.gamestorebackendkotlin.products.model.product.ProductEntity
+import com.gamestore.gamestorebackendkotlin.products.dto.product.ProductOutputDTO
+import com.gamestore.gamestorebackendkotlin.robokassa.dto.OperationsOutput
+import com.gamestore.gamestorebackendkotlin.robokassa.model.table.KassaTable
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
-class OperationEntity(id: EntityID<Long>) : ExtendedLongEntity(id, UserTable) {
-    companion object : LongEntityClass<OperationEntity>(HistoryOperation)
+class KassaEntity(id: EntityID<Long>) : ExtendedLongEntity(id, KassaTable) {
+    companion object : LongEntityClass<KassaEntity>(KassaTable)
 
-    var balance by HistoryOperation.balance
-    var productOperation by HistoryOperation.product_operation
+    var user by KassaTable.user
+    var product by KassaTable.product
+    var status by KassaTable.status
+    var individalID by KassaTable.individualID
 
-    fun toDTO(): OperationOutputDTO? =
-        ProductEntity.findById(productOperation)?.let {
-            OperationOutputDTO(it.toSimpleDTO(), true)
+    fun toDto(
+        productOutputDTO: ProductOutputDTO,
+        link: String,
+    ): OperationsOutput {
+        return if (status == true) {
+            OperationsOutput(
+                invID = individalID,
+                product = productOutputDTO,
+                status = status,
+                link = link,
+            )
+        } else {
+            OperationsOutput(
+                invID = individalID,
+                product = productOutputDTO,
+                status = status,
+                link = null,
+            )
         }
+    }
 }

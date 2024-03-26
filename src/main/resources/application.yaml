@@ -1,3 +1,21 @@
-spring.application.name=GameStoreBackendKotlin
-
-spring.
+spring:
+  application:
+  name: GameStoreBackendKotlin
+  datasource:
+    url: jdbc:postgresql://ep-falling-cell-a2reg41u.eu-central-1.aws.neon.tech/openstore?sslmode=require
+    username: 'vanqel'
+    password: 'Q9NVdtS1pmea'
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+jwt-security:
+  secret: 'dASDASdsadasdsadhjksahdbksjahdkjlshakDJHsakjhdJKALhdksajhdlKJSAHdkjhASLJKDha'
+  expirationTime: 600 #minutes
+  expirationTimeRefresh: 6000 #minutes
+  expirationTimeTemporary: 5 #minutes
+robokassa:
+  login: opensource_vgt
+  password1: 'kN90d7uX2kRkuGPTrsL7'
+  password2: 'JrnoGXFLH1e51dgBCd30'
+  isTest: 1

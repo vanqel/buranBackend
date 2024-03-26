@@ -1,4 +1,4 @@
-package com.gamestore.gamestorebackendkotlin.auth
+package com.gamestore.gamestorebackendkotlin.config
 
 import org.jetbrains.exposed.sql.Table
 

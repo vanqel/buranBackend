@@ -1,15 +1,14 @@
-package io.dtechs.core.auth.validation.validatorsChain.users.db
+package com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.users.db
 
-import io.dtechs.core.auth.errors.ValidationError
-import io.dtechs.core.auth.repository.UsersRepository
-import io.dtechs.core.auth.validation.ValidationProps
-import io.dtechs.core.auth.validation.ValidatorInterface
-import io.dtechs.core.extensions.isNull
+import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
+import com.gamestore.gamestorebackendkotlin.auth.repository.UsersRepository
+import com.gamestore.gamestorebackendkotlin.auth.validation.ValidationProps
+import com.gamestore.gamestorebackendkotlin.auth.validation.ValidatorInterface
+import com.gamestore.gamestorebackendkotlin.extensions.isNull
 import org.springframework.stereotype.Component
 
 @Component
 class ValidateEmailDB(private val repository: UsersRepository) : ValidatorInterface<String> {
-
     override fun valid(arg: String?): ValidationError? {
         var err: ValidationError? = null
         if (arg.isNull()) {
@@ -19,10 +18,11 @@ class ValidateEmailDB(private val repository: UsersRepository) : ValidatorInterf
             )
         }
         if (repository.existUserByEmail(arg!!)) {
-            err = ValidationError(
-                ValidationProps.VALIDATION_MSG_USER,
-                mapOf("Проверка почты на уникальность" to "Почта уже занята"),
-            )
+            err =
+                ValidationError(
+                    ValidationProps.VALIDATION_MSG_USER,
+                    mapOf("Проверка почты на уникальность" to "Почта уже занята"),
+                )
         }
         return err
     }

@@ -1,3 +1,9 @@
 package com.gamestore.gamestorebackendkotlin.products.dto.image
 
-data class ProductImageInput()
+import org.springframework.http.MediaType
+
+data class ProductImageInput(
+    var image: ByteArray,
+    var product: Long,
+    var type: MediaType,
+)

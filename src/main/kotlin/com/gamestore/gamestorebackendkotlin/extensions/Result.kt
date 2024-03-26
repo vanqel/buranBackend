@@ -1,9 +1,9 @@
-package io.dtechs.core.extensions
+package com.gamestore.gamestorebackendkotlin.extensions
 
+import com.gamestore.gamestorebackendkotlin.auth.errors.CommonError
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import io.dtechs.core.auth.errors.CommonError
 
 typealias Result<T> = Result<T, CommonError>
 

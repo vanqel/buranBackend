@@ -1,6 +1,6 @@
-package io.dtechs.core.auth.errors
+package com.gamestore.gamestorebackendkotlin.auth.errors
 
-import io.dtechs.core.auth.exceptions.IExError
+import com.gamestore.gamestorebackendkotlin.auth.exceptions.IExError
 
 sealed class CommonError(
     override val message: String,

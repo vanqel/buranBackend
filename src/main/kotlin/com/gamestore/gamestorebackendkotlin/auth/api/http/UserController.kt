@@ -1,13 +1,13 @@
-package io.dtechs.core.auth.api.http
+package com.gamestore.gamestorebackendkotlin.auth.api.http
 
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserBlockOutput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserChangePasswordInput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserChangePasswordOutput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserCreateInput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserOutput
+import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserUpdateInput
+import com.gamestore.gamestorebackendkotlin.auth.services.user.IUserService
 import com.github.michaelbull.result.getOrThrow
-import io.dtechs.core.auth.dto.users.UserBlockOutput
-import io.dtechs.core.auth.dto.users.UserChangePasswordInput
-import io.dtechs.core.auth.dto.users.UserChangePasswordOutput
-import io.dtechs.core.auth.dto.users.UserCreateInput
-import io.dtechs.core.auth.dto.users.UserOutput
-import io.dtechs.core.auth.dto.users.UserUpdateInput
-import io.dtechs.core.auth.services.user.IUserService
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*
 class UserController(
     private val userService: IUserService,
 ) {
-
     @PostMapping("register")
     fun register(
         @RequestBody body: UserCreateInput,

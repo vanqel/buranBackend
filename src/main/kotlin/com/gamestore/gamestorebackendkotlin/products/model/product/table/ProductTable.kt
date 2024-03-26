@@ -1,18 +1,18 @@
-package com.gamestore.gamestorebackendkotlin.auth.models.authorites.table
+package com.gamestore.gamestorebackendkotlin.products.model.product.table
 
-import com.gamestore.gamestorebackendkotlin.auth.ExtendedLongIdTable
-import com.gamestore.gamestorebackendkotlin.auth.models.users.table.UserTable
+import com.gamestore.gamestorebackendkotlin.config.ExtendedLongIdTable
+import com.gamestore.gamestorebackendkotlin.products.model.productimage.table.ProductImageTable
 import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.ReferenceOption
 
-object UserLoginTable : ExtendedLongIdTable(name = "user_auth") {
-    val user =
+object ProductTable : ExtendedLongIdTable(name = "product") {
+    val title: Column<String> = varchar(name = "title", length = 500)
+    val logotype =
         reference(
-            "user_id",
-            UserTable,
-            onDelete = ReferenceOption.CASCADE,
-        )
-
-    val accesstoken: Column<String> = varchar(name = "accessToken", length = 500)
-    val refreshtoken: Column<String> = varchar(name = "refreshToken", length = 300)
+            "pid",
+            ProductImageTable,
+        ).nullable()
+    val price: Column<Long> = long(name = "price")
+    val description: Column<String?> = varchar(name = "description", length = 500).nullable()
+    val category: Column<String> = varchar(name = "category", length = 100)
+    val link: Column<String> = varchar(name = "linkDownload", length = 500)
 }

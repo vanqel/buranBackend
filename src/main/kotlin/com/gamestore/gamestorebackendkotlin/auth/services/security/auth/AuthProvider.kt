@@ -1,4 +1,4 @@
-package io.dtechs.core.auth.services.security.auth
+package com.gamestore.gamestorebackendkotlin.auth.services.security.auth
 
 import org.springframework.security.core.Authentication
 
