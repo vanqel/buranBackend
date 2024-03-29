@@ -1,7 +1,11 @@
-FROM gradle:jdk21-alpine AS build
+FROM  gradle:8.6-jdk21 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle build -x test
-FROM openjdk:21
-COPY --from=build /home/gradle/src/build/libs/openstore-1.0.0.jar   /app/build
-ENTRYPOINT java -jar /app/build/openstore-1.0.0.jar
+
+FROM openjdk:21-slim-buster
+ARG VERSION=1.0.0
+ARG PROJECT=openstore
+ENV JARNAME=$PROJECT-$VERSION.jar
+COPY --from=build /home/gradle/src/build/libs/$JARNAME  /
+ENTRYPOINT java -jar $JARNAME
