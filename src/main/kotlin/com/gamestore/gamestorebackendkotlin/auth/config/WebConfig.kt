@@ -37,6 +37,7 @@ class WebConfig(
                     .requestMatchers(HttpMethod.OPTIONS).authenticated()
                     .requestMatchers(HttpMethod.GET, "/auth/me").authenticated()
                     .requestMatchers(HttpMethod.GET, "/kassa/**").authenticated()
+                    .requestMatchers(HttpMethod.POST, "/kassa/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/useroperations").authenticated()
                     .anyRequest().permitAll()
             }
