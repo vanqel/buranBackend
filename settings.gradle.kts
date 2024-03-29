@@ -1,1 +1,1 @@
-rootProject.name = "GameStoreBackendKotlin"
+rootProject.name = "openstore"

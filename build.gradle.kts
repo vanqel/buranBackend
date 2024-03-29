@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.gamestore"
-version = "0.0.2-SNAPSHOT"
+version = "1.0.0"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
