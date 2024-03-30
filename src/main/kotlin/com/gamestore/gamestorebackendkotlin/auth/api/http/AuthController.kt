@@ -29,13 +29,14 @@ class AuthController(
 
     @PostMapping("logout")
     fun logout(
-        @RequestHeader(name = HttpHeaders.AUTHORIZATION) token: String,
         request: HttpServletRequest,
         response: HttpServletResponse,
     ): ResponseEntity<Nothing> {
-        authService.logoutUser(token, response)
-        request.session.invalidate()
-        return ok().build()
+        request.getHeader(HttpHeaders.AUTHORIZATION)?.let {
+            authService.logoutUser(it.substring(7), response)
+            request.session.invalidate()
+            return ok().build()
+        }?: throw AuthError()
     }
 
     @GetMapping("me")
