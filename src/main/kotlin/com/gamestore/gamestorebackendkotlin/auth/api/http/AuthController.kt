@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
-
+import com.gamestore.gamestorebackendkotlin.auth.errors.AuthError
 @RestController
 @RequestMapping("/auth")
 class AuthController(
