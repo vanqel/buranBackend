@@ -48,7 +48,7 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
         password: String,
         invoiceID: Int,
     ): String {
-        val data = "$merchantLogin:$outSum:$invoiceID:$password"
+        val data = "$merchantLogin:$outSum.00:$invoiceID:$password"
         val md = MessageDigest.getInstance("MD5")
         val digest = md.digest(data.toByteArray())
         return digest.joinToString("") { "%02x".format(it) }
