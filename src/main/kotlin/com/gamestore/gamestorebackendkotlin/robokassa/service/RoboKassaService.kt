@@ -60,11 +60,12 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
         val invId = invId // Replace with actual value from request
         val signatureValue = signatureValue // Replace with actual value from request
 
-        // Build own CRC
         val myCrc = signatureValue.uppercase().let {
             MessageDigest.getInstance("MD5").digest("$outSumm:$invId:$mrhPass1".toByteArray())
         }.joinToString("") { "%02x".format(it) }.uppercase()
 
+        println(signatureValue)
+        print(myCrc)
         // Compare CRCs
         if (myCrc != signatureValue) {
             return Result.error(ValidationError("Bad sign"))
