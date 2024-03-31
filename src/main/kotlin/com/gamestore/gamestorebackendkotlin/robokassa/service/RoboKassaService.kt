@@ -35,6 +35,7 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
                             .queryParam("IsTest", props.isTest)
                             .build().toUriString()
                     kassaRepository.save(auth.name, productId, invoiceID)
+                    println(uri)
                     Result.ok(uri)
                 }
             }
