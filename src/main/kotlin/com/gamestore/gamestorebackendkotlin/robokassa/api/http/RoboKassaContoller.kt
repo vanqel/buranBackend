@@ -24,10 +24,10 @@ class RoboKassaContoller(val service: RoboKassaService) {
 
     @PostMapping("success")
     fun verifyPayment(@RequestBody body: PaymentInput){
-        service.succ(body.OutSum.toString(), body.InvId, body.SignatureValue).getOrThrow()
+        service.succ(body.OutSum, body.InvId, body.SignatureValue).getOrThrow()
     }
     @PostMapping("fail")
     fun failPayment(@RequestParam body: PaymentInput){
-        service.succ(body.OutSum.toString(), body.InvId, body.SignatureValue).getOrThrow()
+        service.succ(body.OutSum, body.InvId, body.SignatureValue).getOrThrow()
     }
 }
