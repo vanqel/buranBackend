@@ -57,13 +57,10 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
     private fun verift(outSum: Double, invId: Int, signatureValue: String) : Result<Int>?{
         val mrhPass1 = props.password2 // merchant pass1 here
         val outSumm = outSum // Replace with actual value from request
-
-        val myCrc = signatureValue.uppercase().let {
-            MessageDigest.getInstance("MD5").digest("$outSumm:$invId:$mrhPass1".toByteArray())
-        }.joinToString("") { "%02x".format(it) }.uppercase()
-
-        println(signatureValue)
-        print(myCrc)
+        val myCrc = MessageDigest.getInstance("MD5").digest(
+            "$outSumm:$invId:$mrhPass1".toByteArray()
+        ).joinToString ("") { "%02x".format(it) }
+        println("CALCULATED === $myCrc || IN === $signatureValue")
         // Compare CRCs
         if (myCrc != signatureValue) {
             return Result.error(ValidationError("Bad sign"))
