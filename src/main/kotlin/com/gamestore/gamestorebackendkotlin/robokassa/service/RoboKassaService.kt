@@ -60,7 +60,7 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
         val mrhPass1 = props.password1 // merchant pass1 here
         val outSumm = outSum.toString() // Convert to string
         val invIdStr = invId.toString() // Convert to string
-        val param = "$outSumm:$invIdStr:$mrhPass1".uppercase()
+        val param = "${outSumm}0:$invIdStr:$mrhPass1".uppercase()
         val myCrc =
             MessageDigest.getInstance("MD5").digest(param.toByteArray())
                 .joinToString("") { "%02x".format(it) }
