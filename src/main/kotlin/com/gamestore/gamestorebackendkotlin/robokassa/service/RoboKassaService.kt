@@ -28,7 +28,7 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
                     val uri =
                         UriComponentsBuilder.fromHttpUrl("https://auth.robokassa.ru/Merchant/Index.aspx")
                             .queryParam("MerchantLogin", props.login)
-                            .queryParam("OutSum", it.price)
+                            .queryParam("OutSum", "${it.price}.00")
                             .queryParam("Description", it.title)
                             .queryParam("SignatureValue", signatureValue)
                             .queryParam("InvoiceID", invoiceID)
