@@ -1,5 +1,6 @@
 package com.gamestore.gamestorebackendkotlin.robokassa.api.http
 
+import com.gamestore.gamestorebackendkotlin.robokassa.dto.PaymentInput
 import com.gamestore.gamestorebackendkotlin.robokassa.service.RoboKassaService
 import com.github.michaelbull.result.getOrThrow
 import org.springframework.http.ResponseEntity
@@ -22,16 +23,11 @@ class RoboKassaContoller(val service: RoboKassaService) {
     }
 
     @PostMapping("success")
-    fun verifyPayment(@RequestBody body: Map<String, String>){
-         body.keys.forEach {
-            println("$it = ${body[it]}")
-         }
-    //service.succ(body.get(OutSum, InvId, SignatureValue).getOrThrow()
+    fun verifyPayment(@RequestBody body: PaymentInput){
+        service.succ(body.OutSum.toString(), body.InvId, body.SignatureValue).getOrThrow()
     }
     @PostMapping("fail")
-    fun failPayment(@RequestParam OutSum: String,
-                      @RequestParam InvId: Int,
-                      @RequestParam SignatureValue: String){
-        service.fail(OutSum, InvId, SignatureValue).getOrThrow()
+    fun failPayment(@RequestParam body: PaymentInput){
+        service.succ(body.OutSum.toString(), body.InvId, body.SignatureValue).getOrThrow()
     }
 }
