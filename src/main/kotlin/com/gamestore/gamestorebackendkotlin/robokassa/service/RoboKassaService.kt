@@ -54,11 +54,9 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
         return digest.joinToString("") { "%02x".format(it) }
     }
 
-    private fun verift(outSum: String, invId: Int, signatureValue: String) : Result<Int>?{
+    private fun verift(outSum: Double, invId: Int, signatureValue: String) : Result<Int>?{
         val mrhPass1 = props.password2 // merchant pass1 here
         val outSumm = outSum // Replace with actual value from request
-        val invId = invId // Replace with actual value from request
-        val signatureValue = signatureValue // Replace with actual value from request
 
         val myCrc = signatureValue.uppercase().let {
             MessageDigest.getInstance("MD5").digest("$outSumm:$invId:$mrhPass1".toByteArray())
@@ -73,14 +71,14 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
         return Result.ok(invId)
     }
 
-    fun succ(outSum: String, invId: Int, signatureValue: String): Result<Boolean> {
+    fun succ(outSum: Double, invId: Int, signatureValue: String): Result<Boolean> {
         verift(outSum, invId, signatureValue)?.getOrThrow().let {
             kassaRepository.succesPay(invId)
         }
         return Result.ok(true)
     }
 
-    fun fail(outSum: String, invId: Int, signatureValue: String): Result<Boolean> {
+    fun fail(outSum: Double, invId: Int, signatureValue: String): Result<Boolean> {
         verift(outSum, invId, signatureValue)?.getOrThrow().let {
             kassaRepository.errorPay(invId)
         }
