@@ -56,7 +56,7 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
 
 
 
-    private fun verift(outSum: Double, invId: Int, signatureValue: String) : Result<Int>? {
+    private fun verify(outSum: Double, invId: Int, signatureValue: String) : Result<Int>? {
         val mrhPass1 = props.password1 // merchant pass1 here
         val outSumm = outSum.toString() // Convert to string
         val invIdStr = invId.toString() // Convert to string
@@ -75,16 +75,11 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
     }
 
     fun succ(outSum: Double, invId: Int, signatureValue: String): Result<Boolean> {
-        verift(outSum, invId, signatureValue)?.getOrThrow().let {
+        verify(outSum, invId, signatureValue)?.getOrThrow().let {
             kassaRepository.succesPay(invId)
         }
         return Result.ok(true)
     }
 
-    fun fail(outSum: Double, invId: Int, signatureValue: String): Result<Boolean> {
-        verift(outSum, invId, signatureValue)?.getOrThrow().let {
-            kassaRepository.errorPay(invId)
-        }
-        return Result.ok(true)
-    }
+
 }
