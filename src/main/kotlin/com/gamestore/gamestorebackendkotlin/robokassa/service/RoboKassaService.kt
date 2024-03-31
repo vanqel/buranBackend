@@ -57,7 +57,7 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
 
 
     private fun verift(outSum: Double, invId: Int, signatureValue: String) : Result<Int>? {
-        val mrhPass1 = props.password2 // merchant pass1 here
+        val mrhPass1 = props.password1 // merchant pass1 here
         val outSumm = outSum.toString() // Convert to string
         val invIdStr = invId.toString() // Convert to string
         val param = "$outSumm:$invIdStr:$mrhPass1".uppercase()
