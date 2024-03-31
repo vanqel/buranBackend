@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -21,10 +22,11 @@ class RoboKassaContoller(val service: RoboKassaService) {
     }
 
     @PostMapping("success")
-    fun verifyPayment(@RequestParam OutSum: String,
-                      @RequestParam InvId: Int,
-                      @RequestParam SignatureValue: String){
-         service.succ(OutSum, InvId, SignatureValue).getOrThrow()
+    fun verifyPayment(@RequestBody body: Map<String, String>){
+         body.keys.forEach {
+            println("$it = ${body[it]}")
+         }
+    //service.succ(body.get(OutSum, InvId, SignatureValue).getOrThrow()
     }
     @PostMapping("fail")
     fun failPayment(@RequestParam OutSum: String,
