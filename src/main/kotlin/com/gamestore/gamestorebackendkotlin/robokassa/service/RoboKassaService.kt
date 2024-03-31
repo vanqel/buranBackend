@@ -54,15 +54,18 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
         return digest.joinToString("") { "%02x".format(it) }
     }
 
-    private fun verift(outSum: Double, invId: Int, signatureValue: String) : Result<Int>?{
-        val mrhPass1 = props.password2 // merchant pass1 here
-        val outSumm = outSum // Replace with actual value from request
-        val param = "$outSumm:$invId:$mrhPass1".uppercase()
-        val myCrc =
-            MessageDigest.getInstance("MD5").digest("$outSumm:$invId:$mrhPass1".toByteArray())
-        .joinToString("") { "%02x".format(it) }
 
-        println("CALUlated CRC: $myCrc | Requested CRC: $signatureValue | PARAM-IN: $outSumm:$invId:$mrhPass1 | PARAM-OUT: $param")
+
+    private fun verift(outSum: Double, invId: Int, signatureValue: String) : Result<Int>? {
+        val mrhPass1 = props.password2 // merchant pass1 here
+        val outSumm = outSum.toString() // Convert to string
+        val invIdStr = invId.toString() // Convert to string
+        val param = "$outSumm:$invIdStr:$mrhPass1".uppercase()
+        val myCrc =
+            MessageDigest.getInstance("MD5").digest(param.toByteArray())
+                .joinToString("") { "%02x".format(it) }
+
+        println("CALUlated CRC: $myCrc | Requested CRC: $signatureValue | PARAM-IN: $outSumm:$invIdStr:$mrhPass1 | PARAM-OUT: $param")
         print(myCrc)
         // Compare CRCs
         if (myCrc != signatureValue) {
