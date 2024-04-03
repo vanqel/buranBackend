@@ -5,7 +5,7 @@ package com.gamestore.gamestorebackendkotlin.auth.validation
  */
 object ValidationProps {
     /**  LowerCaseLetter - Положительный предварительный просмотр, чтобы соответствовать ровно 3 строчным буквам */
-    val LowerCaseLetter = "(?=(?:.*[a-z]){3})".toRegex()
+    val LowerCaseLetter = "(?=(?:.*[a-z]){1})".toRegex()
 
     /**  UpperCaseLetter - Положительный предварительный просмотр, чтобы совпадали ровно 2 заглавные буквы */
     val UpperCaseLetter = "(?=(?:.*[A-Z]){1})".toRegex()
@@ -15,7 +15,7 @@ object ValidationProps {
 
     /**  DecimalCase - Положительный предварительный просмотр, соответствующий ровно 2 числам
      * */
-    val DecimalCase = "(?=(?:.*\\d){2})".toRegex()
+    val DecimalCase = "(?=(?:.*\\d){1})".toRegex()
 
     /**  EmailCase - Cоответсвие формату text@text.text */
     val EmailCase = "^[a-zA-Z0-9.!#\$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$".toRegex()
@@ -41,7 +41,7 @@ object ValidationProps {
     /**
      *   LENGTH_PASSWORD - Длина пароля
      */
-    const val LENGTH_PASSWORD = 8
+    const val LENGTH_PASSWORD = 5
 
     /**
      *   LENGTH_PHONE - Длина номера телефона

@@ -23,7 +23,7 @@ class ValidatePasswordField : ValidatorInterface<String> {
             return ValidationError(ValidationProps.VALIDATION_MSG_USER, errors = errors)
         }
         if (ValidationProps.LowerCaseLetter.find(arg) == null) {
-            errors["Строчные буквы пароля"] = "Используйте хотя бы 3 строчные буквы"
+            errors["Строчные буквы пароля"] = "Используйте хотя бы 1 строчные буквы"
         }
         if (ValidationProps.UpperCaseLetter.find(arg) == null) {
             errors["Заглавные буквы пароля"] = "Используйте хотя бы 1 заглавную букву"
@@ -33,10 +33,10 @@ class ValidatePasswordField : ValidatorInterface<String> {
                 "Используйте хотя бы 1 специальный символ - ?, !, @, #, *, %, ^, &, -, +, ., ,"
         }
         if (ValidationProps.DecimalCase.find(arg) == null) {
-            errors["Длина пароля"] = "Пароль должен содержать хотя бы 2 числа"
+            errors["Длина пароля"] = "Пароль должен содержать хотя бы 1 число"
         }
         if (arg.length < ValidationProps.LENGTH_PASSWORD) {
-            errors["Длина пароля"] = "Пароль должен быть длинее 8 сиволов"
+            errors["Длина пароля"] = "Пароль должен быть длинее 5 сиволов"
         }
         if (errors != emptyMap<String, String>()) {
             err = ValidationError(ValidationProps.VALIDATION_MSG_USER, errors)
