@@ -11,4 +11,5 @@ class ProductImageEntity(id: EntityID<Long>) : ExtendedLongEntity(id, ProductIma
     var image by ProductImageTable.image
     var product by ProductImageTable.product
     var type by ProductImageTable.type
+
 }

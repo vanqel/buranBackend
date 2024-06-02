@@ -9,3 +9,6 @@ ARG PROJECT=openstore
 ENV JARNAME=$PROJECT-$VERSION.jar
 COPY --from=build /home/gradle/src/build/libs/$JARNAME  /
 ENTRYPOINT java -jar $JARNAME
+
+
+postgres://dpg-co4tqvn79t8c7397fgl0-a/temperature_s3cv

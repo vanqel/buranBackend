@@ -20,3 +20,4 @@ interface IUserService {
 
     fun updatePassword(body: UserChangePasswordInput): Result<UserChangePasswordOutput>
 }
+

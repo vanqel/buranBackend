@@ -1,13 +1,13 @@
 package com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.users.db
 
 import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
-import com.gamestore.gamestorebackendkotlin.auth.repository.UsersRepository
+import com.gamestore.gamestorebackendkotlin.auth.repository.IUsersRepository
 import com.gamestore.gamestorebackendkotlin.auth.validation.ValidationProps
 import com.gamestore.gamestorebackendkotlin.auth.validation.ValidatorInterface
 import org.springframework.stereotype.Component
 
 @Component
-class ValidateUserIdDB(private val repository: UsersRepository) : ValidatorInterface<String> {
+class ValidateUserIdDB(private val repository: IUsersRepository) : ValidatorInterface<String> {
     override fun valid(arg: String?): ValidationError? {
         var err: ValidationError? = null
         if (arg == null) {

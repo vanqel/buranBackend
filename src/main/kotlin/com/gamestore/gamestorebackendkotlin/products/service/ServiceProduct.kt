@@ -1,4 +1,5 @@
 package com.gamestore.gamestorebackendkotlin.products.service
+
 import com.gamestore.gamestorebackendkotlin.auth.errors.CommonError
 import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
 import com.gamestore.gamestorebackendkotlin.auth.models.roles.table.ConstantRoles
@@ -6,8 +7,8 @@ import com.gamestore.gamestorebackendkotlin.extensions.*
 import com.gamestore.gamestorebackendkotlin.products.dto.image.ProductImageInput
 import com.gamestore.gamestorebackendkotlin.products.dto.product.*
 import com.gamestore.gamestorebackendkotlin.products.model.product.ProductEntity
-import com.gamestore.gamestorebackendkotlin.products.repository.ProductImageRepository
-import com.gamestore.gamestorebackendkotlin.products.repository.ProductRepository
+import com.gamestore.gamestorebackendkotlin.products.repository.IProductImageRepository
+import com.gamestore.gamestorebackendkotlin.products.repository.IProductRepository
 import com.github.michaelbull.result.Err
 import jakarta.servlet.http.HttpServletResponse
 import org.jetbrains.exposed.dao.id.EntityID
@@ -20,8 +21,8 @@ import org.springframework.web.multipart.MultipartFile
 @Service
 @Transactional
 class ServiceProduct(
-    val productRepository: ProductRepository,
-    val productImageRepository: ProductImageRepository,
+    val productRepository: IProductRepository,
+    val productImageRepository: IProductImageRepository,
 ) {
     fun verifyCreatorAdmin(): Boolean =
         SecurityContextHolder
@@ -89,14 +90,14 @@ class ServiceProduct(
         val imageData: ByteArray = img.inputStream.readAllBytes()
 
         return err ?: (
-            try {
-                val iid = productImageRepository.save(ProductImageInput(imageData, pid, type))
-                productRepository.updateImage(ProductUpdateImageInputDTO(pid, iid))
-                Result.ok(ProductUpdateOutputDTO(true))
-            } catch (e: Exception) {
-                Result.ok(ProductUpdateOutputDTO(false))
-            }
-        )
+                try {
+                    val iid = productImageRepository.save(ProductImageInput(imageData, pid, type))
+                    productRepository.updateImage(ProductUpdateImageInputDTO(pid, iid))
+                    Result.ok(ProductUpdateOutputDTO(true))
+                } catch (e: Exception) {
+                    Result.ok(ProductUpdateOutputDTO(false))
+                }
+                )
     }
 
     fun deleteProductImage(pid: Long): Result<ProductDeleteOutputDTO> {
@@ -109,13 +110,13 @@ class ServiceProduct(
             err = Result.error(ValidationError("Продукт не найден"))
         }
         return err ?: (
-            try {
-                productImageRepository.deleteByProductId(entity!!)
-                Result.ok(ProductDeleteOutputDTO(true))
-            } catch (e: Exception) {
-                Result.ok(ProductDeleteOutputDTO(false))
-            }
-        )
+                try {
+                    productImageRepository.deleteByProductId(entity!!)
+                    Result.ok(ProductDeleteOutputDTO(true))
+                } catch (e: Exception) {
+                    Result.ok(ProductDeleteOutputDTO(false))
+                }
+                )
     }
 
     fun getImage(

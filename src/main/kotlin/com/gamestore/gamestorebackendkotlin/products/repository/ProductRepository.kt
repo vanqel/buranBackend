@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 @Transactional
-class ProductRepository {
-    fun save(body: ProductInputDTO): ProductOutputDTO? {
+class ProductRepository: IProductRepository {
+    override fun save(body: ProductInputDTO): ProductOutputDTO? {
         val id =
             transaction {
                 ProductTable.insertAndGetId {
@@ -31,11 +31,11 @@ class ProductRepository {
         return ProductEntity.findById(id)?.toSimpleDTO()
     }
 
-    fun findByProductID(pid: Long) = ProductEntity.findById(pid)
+    override fun findByProductID(pid: Long) = ProductEntity.findById(pid)
 
-    fun findByCategory(category: String) = ProductEntity.find { ProductTable.category.eq(category) }.map { it.toSimpleDTO() }.toList()
+    override fun findByCategory(category: String) = ProductEntity.find { ProductTable.category.eq(category) }.map { it.toSimpleDTO() }.toList()
 
-    fun update(body: ProductUpdateInputDTO) =
+    override fun update(body: ProductUpdateInputDTO) =
         findByProductID(body.pid)?.let {
             it.title = body.product.title
             it.description = body.product.description
@@ -43,11 +43,11 @@ class ProductRepository {
             true
         } ?: false
 
-    fun updateImage(body: ProductUpdateImageInputDTO) =
+    override fun updateImage(body: ProductUpdateImageInputDTO) =
         findByProductID(body.pid)?.let {
             it.logotype = body.iid
             true
         } ?: false
 
-    fun deleteProduct(pid: Long): Boolean = ProductTable.deleteWhere { id.eq(pid) } > 0
+    override fun deleteProduct(pid: Long): Boolean = ProductTable.deleteWhere { id.eq(pid) } > 0
 }

@@ -12,15 +12,17 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional
 @Repository
-class ProductImageRepository {
-    fun save(body: ProductImageInput) =
+class ProductImageRepository: IProductImageRepository {
+    override fun save(body: ProductImageInput) =
         ProductImageTable.insertAndGetId {
             it[image] = body.image
             it[type] = body.type.toString()
             it[product] = body.product
         }
 
-    fun deleteByProductId(pid: EntityID<Long>) = ProductImageTable.deleteWhere { product.eq(pid) } > 0
+    override fun deleteByProductId(pid: EntityID<Long>) =
+        ProductImageTable.deleteWhere { product.eq(pid) } > 0
 
-    fun getImageByPid(pid: Long): ProductImageEntity? = ProductImageEntity.find(ProductImageTable.product.eq(pid)).firstOrNull()
+    override fun getImageByPid(pid: Long): ProductImageEntity? =
+        ProductImageEntity.find(ProductImageTable.product.eq(pid)).firstOrNull()
 }

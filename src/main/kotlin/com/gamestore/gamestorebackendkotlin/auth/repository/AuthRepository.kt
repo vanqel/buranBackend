@@ -15,8 +15,8 @@ import java.sql.SQLException
 
 @Repository
 @Transactional
-class AuthRepository {
-    fun save(inputAuth: AuthInput): AuthOutput? {
+class AuthRepository: IAuthRepository {
+    override fun save(inputAuth: AuthInput): AuthOutput? {
         if (UserLoginEntity.find { UserLoginTable.user eq inputAuth.userEntity.id }.exists()) {
             UserLoginTable.deleteWhere { user eq inputAuth.userEntity.id.value }
         }
@@ -28,7 +28,7 @@ class AuthRepository {
         return AuthOutput(inputAuth.userEntity.id.value, inputAuth.accessToken, inputAuth.refreshToken)
     }
 
-    fun deleteByAccessToken(token: String): Boolean {
+    override fun deleteByAccessToken(token: String): Boolean {
         val tokenEdited = token.substringAfter(SecurityProperties.TOKEN_PREFIX_ACCESS)
         return try {
             UserLoginTable.deleteWhere { accesstoken.eq(tokenEdited) }
@@ -38,16 +38,16 @@ class AuthRepository {
         }
     }
 
-    fun existAccessToken(token: String): Boolean =
+    override fun existAccessToken(token: String): Boolean =
         UserLoginTable.selectAllNotDeleted()
             .andWhere { UserLoginTable.accesstoken eq token }
             .exists()
 
-    fun existRefreshToken(token: String): Boolean =
+    override fun existRefreshToken(token: String): Boolean =
         UserLoginTable.selectAllNotDeleted()
             .andWhere { UserLoginTable.refreshtoken eq token }
             .exists()
 
-    fun findAuthByRefreshToken(refreshToken: String): UserLoginEntity? =
+    override fun findAuthByRefreshToken(refreshToken: String): UserLoginEntity? =
         UserLoginEntity.find { UserLoginTable.refreshtoken eq refreshToken }.firstOrNull()
 }

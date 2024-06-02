@@ -8,6 +8,8 @@ import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserOutput
 import com.gamestore.gamestorebackendkotlin.auth.dto.users.UserTokenOutput
 import com.gamestore.gamestorebackendkotlin.auth.errors.AuthError
 import com.gamestore.gamestorebackendkotlin.auth.repository.AuthRepository
+import com.gamestore.gamestorebackendkotlin.auth.repository.IAuthRepository
+import com.gamestore.gamestorebackendkotlin.auth.repository.IUsersRepository
 import com.gamestore.gamestorebackendkotlin.auth.repository.UsersRepository
 import com.gamestore.gamestorebackendkotlin.auth.services.security.app.AppAuthenticationManager
 import com.gamestore.gamestorebackendkotlin.auth.services.token.TokenProvider
@@ -25,10 +27,10 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class AuthService(
-    private val userRepository: UsersRepository,
+    private val userRepository: IUsersRepository,
     private val appAuthenticationManager: AppAuthenticationManager,
     private val tokenProvider: TokenProvider,
-    private val authRepository: AuthRepository,
+    private val authRepository: IAuthRepository,
     private val jwtUtils: JwtUtils,
 ) : IAuthService {
     override fun authenticateFirst(

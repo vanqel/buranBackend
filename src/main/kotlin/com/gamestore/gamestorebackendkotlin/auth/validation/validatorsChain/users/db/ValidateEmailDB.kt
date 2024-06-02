@@ -1,6 +1,7 @@
 package com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.users.db
 
 import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
+import com.gamestore.gamestorebackendkotlin.auth.repository.IUsersRepository
 import com.gamestore.gamestorebackendkotlin.auth.repository.UsersRepository
 import com.gamestore.gamestorebackendkotlin.auth.validation.ValidationProps
 import com.gamestore.gamestorebackendkotlin.auth.validation.ValidatorInterface
@@ -8,7 +9,7 @@ import com.gamestore.gamestorebackendkotlin.extensions.isNull
 import org.springframework.stereotype.Component
 
 @Component
-class ValidateEmailDB(private val repository: UsersRepository) : ValidatorInterface<String> {
+class ValidateEmailDB(private val repository: IUsersRepository) : ValidatorInterface<String> {
     override fun valid(arg: String?): ValidationError? {
         var err: ValidationError? = null
         if (arg.isNull()) {

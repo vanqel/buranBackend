@@ -1,14 +1,14 @@
 package com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.token.db
 
 import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
-import com.gamestore.gamestorebackendkotlin.auth.repository.AuthRepository
+import com.gamestore.gamestorebackendkotlin.auth.repository.IAuthRepository
 import com.gamestore.gamestorebackendkotlin.auth.validation.ValidationProps
 import com.gamestore.gamestorebackendkotlin.auth.validation.ValidatorInterface
 import com.gamestore.gamestorebackendkotlin.extensions.isNull
 import org.springframework.stereotype.Component
 
 @Component
-class ValidateTokenByAccess(val authRepository: AuthRepository) : ValidatorInterface<String> {
+class ValidateTokenByAccess(val authRepository: IAuthRepository) : ValidatorInterface<String> {
     override fun valid(arg: String?): ValidationError? {
         var err: ValidationError? = null
         if (arg.isNull()) {

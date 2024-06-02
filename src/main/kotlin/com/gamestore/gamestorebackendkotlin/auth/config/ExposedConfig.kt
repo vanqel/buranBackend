@@ -30,3 +30,4 @@ class ExposedConfig(
             excludedPackages = listOf(),
         )
 }
+

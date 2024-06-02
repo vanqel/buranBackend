@@ -11,7 +11,7 @@ class ChainValidate<T> {
     /**
      * Лист хранящий в себе валидаторы
      */
-    private var chains: List<Pair<ValidatorInterface<T>, T?>> = mutableListOf()
+    private var chains: MutableList<Pair<ValidatorInterface<T>, T?>> = mutableListOf()
 
     /**
      * Создание валдитора с пустым списком, что бы не было коллизий

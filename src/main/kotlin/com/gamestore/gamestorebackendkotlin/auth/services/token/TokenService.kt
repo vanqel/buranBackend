@@ -7,6 +7,7 @@ import com.gamestore.gamestorebackendkotlin.auth.dto.token.TokenValidationOutput
 import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
 import com.gamestore.gamestorebackendkotlin.auth.models.users.UserEntity
 import com.gamestore.gamestorebackendkotlin.auth.repository.AuthRepository
+import com.gamestore.gamestorebackendkotlin.auth.repository.IAuthRepository
 import com.gamestore.gamestorebackendkotlin.auth.validation.ChainValidate
 import com.gamestore.gamestorebackendkotlin.auth.validation.ValidationProps
 import com.gamestore.gamestorebackendkotlin.auth.validation.validatorsChain.token.db.ValidateTokenByAccess
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service
 @Service
 class TokenService(
     private val chainValidate: ChainValidate<String>,
-    private val authRepository: AuthRepository,
+    private val authRepository: IAuthRepository,
     private val validateExpToken: ValidateExpirationToken,
     private val validateTokenByRefresh: ValidateTokenByRefresh,
     private val validateTokenByAccess: ValidateTokenByAccess,

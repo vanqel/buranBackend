@@ -4,8 +4,9 @@ import com.gamestore.gamestorebackendkotlin.auth.errors.ValidationError
 import com.gamestore.gamestorebackendkotlin.extensions.Result
 import com.gamestore.gamestorebackendkotlin.extensions.error
 import com.gamestore.gamestorebackendkotlin.extensions.ok
-import com.gamestore.gamestorebackendkotlin.products.repository.ProductRepository
+import com.gamestore.gamestorebackendkotlin.products.repository.IProductRepository
 import com.gamestore.gamestorebackendkotlin.robokassa.config.RobokassaProps
+import com.gamestore.gamestorebackendkotlin.robokassa.repository.IKassaRepository
 import com.gamestore.gamestorebackendkotlin.robokassa.repository.KassaRepository
 import com.github.michaelbull.result.getOrThrow
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -16,12 +17,15 @@ import java.security.MessageDigest
 
 @Service
 @EnableConfigurationProperties(RobokassaProps::class)
-class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepository, val productRepository: ProductRepository) {
+class RoboKassaService(
+    val props: RobokassaProps,
+    val kassaRepository: IKassaRepository,
+    val productRepository: IProductRepository,
+) {
     fun generatePaymentLink(productId: Long): Result<String> {
         val invoiceID = (Math.random() * 100000 + 1).toInt()
         return SecurityContextHolder.getContext()?.let { authHolder ->
-            authHolder.authentication.let {
-                    auth ->
+            authHolder.authentication.let { auth ->
                 println(auth.name)
                 productRepository.findByProductID(productId)?.let {
                     val signatureValue = generateSignatureValue(props.login, it.price, props.password1, invoiceID)
@@ -55,8 +59,7 @@ class RoboKassaService(val props: RobokassaProps, val kassaRepository: KassaRepo
     }
 
 
-
-    private fun verify(outSum: Double, invId: Int, signatureValue: String) : Result<Int>? {
+    private fun verify(outSum: Double, invId: Int, signatureValue: String): Result<Int>? {
         val mrhPass1 = props.password1 // merchant pass1 here
         val outSumm = outSum.toString() // Convert to string
         val invIdStr = invId.toString() // Convert to string

@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 @Transactional
-class KassaRepository {
-    fun save(
+class KassaRepository: IKassaRepository {
+    override fun save(
         username: String,
         pid: Long,
         invID: Int,
@@ -25,17 +25,18 @@ class KassaRepository {
         }
     }
 
-    fun succesPay(invID: Int) {
+    override fun succesPay(invID: Int) {
         KassaEntity.find { KassaTable.individualID eq invID }.first().let {
             it.status = true
         }
     }
 
-    fun errorPay(invID: Int) {
+    override fun errorPay(invID: Int) {
         KassaEntity.find { KassaTable.individualID eq invID }.first().let {
             it.status = false
         }
     }
 
-    fun findByUser(userEntity: EntityID<Long>): List<KassaEntity?> = KassaEntity.find { KassaTable.user eq userEntity }.toList()
+    override fun findByUser(userEntity: EntityID<Long>): List<KassaEntity?> = KassaEntity.find { KassaTable.user eq userEntity }.toList()
 }
+
