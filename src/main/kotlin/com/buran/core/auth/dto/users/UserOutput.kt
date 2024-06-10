@@ -1,7 +1,7 @@
-package com.gamestore.gamestorebackendkotlin.auth.dto.users
+package com.buran.core.auth.dto.users
 
-import com.gamestore.gamestorebackendkotlin.auth.models.roles.table.RolesEnum
-import com.gamestore.gamestorebackendkotlin.auth.models.users.UserEntity
+import com.buran.core.auth.models.roles.table.RolesEnum
+import com.buran.core.auth.models.users.UserEntity
 
 class UserOutput(
     val id: Long,
