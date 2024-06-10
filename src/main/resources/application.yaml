@@ -1,21 +1,40 @@
+server:
+  port: 8090
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+baseUrl: localhost
 spring:
-  application:
-  name: GameStoreBackendKotlin
+
+  security:
+    user:
+      name: "buran_manager"
+      password: "buran_manager_pwd"
+      roles: "ADMIN"
+  banner:
+    location: banner.txt
+  config:
+    additional-location: file:.env
   datasource:
-    url: 'jdbc:postgresql://dpg-co4kgh779t8c7393hdd0-a.oregon-postgres.render.com/openstore_bs4y'
-    username: 'openstore_bs4y_user'
-    password: 'jrKjOGTWHvujK3fs8s2zL9oaBOz5Fwci'
+    url: jdbc:postgresql://109.120.187.242:4490/buran
+    username: buran_root
+    password: buran_adm_root
   servlet:
     multipart:
       max-file-size: 5MB
       max-request-size: 10MB
 jwt-security:
-  secret: 'dASDASdsadasdsadhjksahdbksjahdkjlshakDJHsakjhdJKALhdksajhdlKJSAHdkjhASLJKDha'
+  secret: 'dASDASdsadasdsadhjksahdbksjahddasdahakDJHsakjhdJKALhdksajhdlKJSAHdkjhASLJKDha'
   expirationTime: 600 #minutes
   expirationTimeRefresh: 6000 #minutes
   expirationTimeTemporary: 5 #minutes
-robokassa:
-  login: opensource_vgt
-  password1: 'kN90d7uX2kRkuGPTrsL7'
-  password2: 'JrnoGXFLH1e51dgBCd30'
-  isTest: 1
+
+
+minio:
+  url: http://109.120.187.242
+  host: 9000
+  access-key: burah_root_minio
+  secret-key: burah_root_pwd_minio
+  bucket-name: burah-storage
+  max-size: 5

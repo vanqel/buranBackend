@@ -14,3 +14,11 @@ services:
     ports:
       - 8080:8080
     command: java -jar /app/app.jar
+
+  minio:
+    image: minio/minio
+    volumes:
+      - ./build/libs/GameStoreBackendKotlin-0.0.2-SNAPSHOT.jar:/app/app.jar
+    ports:
+      - 8080:8080
+    command: java -jar /app/app.jar

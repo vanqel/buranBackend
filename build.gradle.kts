@@ -54,6 +54,9 @@ dependencies {
     //  LOGGING
     implementation("org.apache.logging.log4j:log4j-api-kotlin:1.4.0")
 
+    // S3
+    implementation("io.minio:minio:8.5.10")
+
     //OTHER
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
