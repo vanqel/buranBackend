@@ -8,6 +8,7 @@ import com.buran.core.players.dto.PlayerUpdateInput
 import com.buran.core.players.repostiory.IPlayerRepository
 import com.buran.core.storage.core.service.MinioService
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class PlayerService(
@@ -15,7 +16,7 @@ class PlayerService(
     val minioService: MinioService,
 ) : IPlayerService {
     override fun createPlayer(body: PlayerCreateInput): PlayerFullOutput {
-        return repo.createPlayer(body).toFullOutput(minioService.getObject(body.photo)?.url)
+        return repo.createPlayer(body).toFullOutput(minioService.getObject(UUID.fromString(body.photo))?.url)
     }
 
     override fun updatePlayer(body: PlayerUpdateInput): PlayerFullOutput {

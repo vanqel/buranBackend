@@ -10,6 +10,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Repository
 @Transactional
@@ -20,7 +21,7 @@ class PlayerRepository : IPlayerRepository {
                 it[name] = body.name
                 it[biography] = body.biography
                 it[number] = body.number
-                it[photo] = body.photo
+                it[photo] = UUID.fromString(body.photo)
                 it[birthDate] = body.birthDate
                 it[type] = body.type
             }

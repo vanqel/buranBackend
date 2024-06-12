@@ -8,7 +8,7 @@ data class PlayerCreateInput(
     val name: String,
     val number: Int,
     val biography: String,
-    val photo: UUID,
+    val photo: String,
     val birthDate: LocalDate,
     val type: PlayerType
 )
