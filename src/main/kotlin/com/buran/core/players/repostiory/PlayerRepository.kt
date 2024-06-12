@@ -15,14 +15,18 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class PlayerRepository : IPlayerRepository {
     override fun createPlayer(body: PlayerCreateInput): PlayerEntity {
-        return PlayerEntity(PlayerTable.insertAndGetId {
-            it[name] = body.name
-            it[biography] = body.biography
-            it[number] = body.number
-            it[photo] = body.photo
-            it[birthDate] = body.birthDate
-            it[type] = body.type
-        })
+        return PlayerEntity(transaction {
+            val a = PlayerTable.insertAndGetId {
+                it[name] = body.name
+                it[biography] = body.biography
+                it[number] = body.number
+                it[photo] = body.photo
+                it[birthDate] = body.birthDate
+                it[type] = body.type
+            }
+            commit()
+            return@transaction a
+        } )
     }
 
     override fun updatePlayer(body: PlayerUpdateInput): PlayerEntity {
