@@ -5,10 +5,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
     volumes:
       - .:/home/gradle/src
     command: gradle build -x test
-    # Дополнительные настройки для сборки образа
 
   app:
     image: openjdk:21
