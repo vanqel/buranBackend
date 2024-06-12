@@ -17,7 +17,7 @@ class StorageImageService(
         val find = repo.getLink(image)
         return if ( find == null){
                 try {
-                    val url = minioService.getObject(image.image.toString())
+                    val url = minioService.getObject(image.image)?.url
                     if (url != null) {
                         repo.addLink(image)
                         url
@@ -25,14 +25,14 @@ class StorageImageService(
                 } catch (e: Exception) {
                     throw GeneralError("Ошибка загрузки изображения")
                 }
-            } else minioService.getObject(image.image.toString())!!
+            } else minioService.getObject(image.image)!!.url!!
 
     }
 
     override fun getListImages(parentKey: UUID): List<String?> {
         return try {
             repo.getListImages(parentKey).filterNotNull().map {
-                minioService.getObject(it.id.value.toString())
+                minioService.getObject(it.id.value)?.url
             }.ifEmpty { throw ValidationError("Изображение не найдено") }
         } catch (e: Exception) {
             throw GeneralError("Ошибка загрузки изображения")

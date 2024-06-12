@@ -1,1 +1,1 @@
-rootProject.name = "openstore"
+rootProject.name = "buran"

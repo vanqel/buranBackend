@@ -8,7 +8,7 @@ plugins {
     id ("com.github.johnrengelman.shadow") version "8.0.0"
 }
 
-group = "com.gamestore"
+group = "com.buran"
 version = "1.0.0"
 
 java {

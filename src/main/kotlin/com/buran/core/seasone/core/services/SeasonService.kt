@@ -20,8 +20,8 @@ class SeasonService(
         return repo.getListSeason().map { it.toDTO() }
     }
 
-    override fun deleteSeason(id: Long): Boolean {
-        return repo.deleteSeason(id)
+    override fun deleteSeason(title: String): Boolean {
+        return repo.deleteSeason(title)
     }
 
     override fun getSeasonFromTitle(title: String): EntityID<Long> {

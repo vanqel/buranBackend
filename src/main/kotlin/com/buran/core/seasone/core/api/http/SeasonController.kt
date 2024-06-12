@@ -39,8 +39,8 @@ class SeasonController(
 
     @DeleteMapping
     fun delSeason(
-        @RequestParam id: Long
+        @RequestParam title: String
     ): Boolean {
-        return service.deleteSeason(id)
+        return service.deleteSeason(title)
     }
 }

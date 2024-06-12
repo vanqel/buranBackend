@@ -12,8 +12,8 @@ class SeasonEntity(id: EntityID<Long>): ExtendedLongEntity(id, SeasonTable){
     var dateEnd by SeasonTable.dateEnd
 
     fun toDTO() = SeasonOutput(
-        id = this.id.value,
         dateStart = dateStart,
-        dateEnd = dateEnd
+        dateEnd = dateEnd,
+        title = title
     )
 }

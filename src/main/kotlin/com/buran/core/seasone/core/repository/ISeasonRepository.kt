@@ -9,7 +9,7 @@ interface ISeasonRepository {
 
     fun addNewSeason(body: SeasonCreateInput): SeasonEntity
 
-    fun deleteSeason(id: Long): Boolean
+    fun deleteSeason(title: String): Boolean
 
     fun getIdFromTitle(title: String): EntityID<Long>
 }

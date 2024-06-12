@@ -17,6 +17,8 @@ class SeasonRepository : ISeasonRepository {
     }
 
     override fun addNewSeason(body: SeasonCreateInput): SeasonEntity {
+
+
         return SeasonEntity.new {
             title = "${body.dateStart.year}-${body.dateEnd.year}"
             dateStart = body.dateStart
@@ -24,8 +26,8 @@ class SeasonRepository : ISeasonRepository {
         }
     }
 
-    override fun deleteSeason(id: Long): Boolean {
-        return SeasonTable.deleteWhere { SeasonTable.id eq id } == 1
+    override fun deleteSeason(title: String): Boolean {
+        return SeasonTable.deleteWhere { SeasonTable.title eq title } == 1
     }
 
     override fun getIdFromTitle(title: String): EntityID<Long> {

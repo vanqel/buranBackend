@@ -7,6 +7,6 @@ import org.jetbrains.exposed.dao.id.EntityID
 interface ISeasonService {
     fun createSeason(body: SeasonCreateInput): SeasonOutput
     fun getList(): List<SeasonOutput>
-    fun deleteSeason(id: Long): Boolean
+    fun deleteSeason(title: String): Boolean
     fun getSeasonFromTitle(title: String): EntityID<Long>
 }

@@ -14,15 +14,16 @@ class MinioService(
     val property: MinioProperties,
 ) {
 
-    fun getObject(name: String): String? {
-        return client.getPresignedObjectUrl(
+    fun getObject(name: UUID): FileOutput? {
+        val url = client.getPresignedObjectUrl(
             GetPresignedObjectUrlArgs.builder()
                 .method(Method.GET)
                 .bucket(property.bucketName)
-                .`object`(name)
-                .expiry(2, TimeUnit.HOURS)
+                .`object`(name.toString())
+                .expiry(1, TimeUnit.HOURS)
                 .build()
         )
+        return FileOutput(url, name)
     }
 
     fun delObject(name: String): Boolean {
@@ -52,7 +53,7 @@ class MinioService(
         return "asd"
     }
 
-    fun addObject(obj: MultipartFile): String {
+    fun addObject(obj: MultipartFile): FileOutput {
         val name = UUID.randomUUID()
 
         client.putObject(
@@ -64,6 +65,11 @@ class MinioService(
                 .build()
         )
 
-        return name.toString()
+        return getObject(name)!!
     }
 }
+
+data class FileOutput(
+    val url: String?,
+    val uuid: UUID,
+)
