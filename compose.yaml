@@ -15,7 +15,7 @@ services:
     volumes:
       - ./build/libs/buran-1.0.0.jar:/app/app.jar
     ports:
-      - 8090:8090
+      - "8090:8090"
     command: java -jar /app/app.jar
     depends_on:
       - build
