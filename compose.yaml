@@ -1,4 +1,15 @@
+version: '3.8'
+
 services:
+  build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/gradle/src
+    command: gradle build -x test
+    # Дополнительные настройки для сборки образа
+
   app:
     image: openjdk:21
     volumes:
@@ -6,3 +17,5 @@ services:
     ports:
       - 8090:8090
     command: java -jar /app/app.jar
+    depends_on:
+      - build

@@ -5,10 +5,8 @@ RUN gradle build -x test
 
 FROM openjdk:21-slim-buster
 ARG VERSION=1.0.0
-ARG PROJECT=openstore
+ARG PROJECT=buran
 ENV JARNAME=$PROJECT-$VERSION.jar
 COPY --from=build /home/gradle/src/build/libs/$JARNAME  /
 ENTRYPOINT java -jar $JARNAME
 
-
-postgres://dpg-co4tqvn79t8c7397fgl0-a/temperature_s3cv
