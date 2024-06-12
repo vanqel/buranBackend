@@ -30,6 +30,7 @@ class PlayerEntity(id: EntityID<Long>): ExtendedLongEntity(id, PlayerTable) {
 
     fun toFullOutput(urlPh: String?): PlayerFullOutput {
         return PlayerFullOutput(
+            id = id.value,
             name = name,
             number = number,
             biography = biography,

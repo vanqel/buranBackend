@@ -10,5 +10,6 @@ interface IPlayerRepository {
     fun deletePlayer(id: Long): Boolean
     fun getPlayer(id: Long): PlayerEntity?
     fun getAllPlayers(): List<PlayerEntity>
+    fun getAllPlayersArchived(): List<PlayerEntity>
     fun getPlayers(id: List<Long>): List<PlayerEntity>
 }

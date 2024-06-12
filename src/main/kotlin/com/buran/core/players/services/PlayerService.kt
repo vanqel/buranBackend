@@ -15,6 +15,7 @@ class PlayerService(
     val repo: IPlayerRepository,
     val minioService: MinioService,
 ) : IPlayerService {
+
     override fun createPlayer(body: PlayerCreateInput): PlayerFullOutput {
         return repo.createPlayer(body).toFullOutput(minioService.getObject(UUID.fromString(body.photo))?.url)
     }
@@ -72,6 +73,17 @@ class PlayerService(
 
     override fun getAllPlayers(): List<PlayerSimpleOutput> {
         val ent = repo.getAllPlayers()
+        val result = ent.map{ playerEntity ->
+            val url = playerEntity.photo?.let {
+                minioService.getObject(it)?.url
+            }
+            playerEntity.toSimpleOutput(url)
+        }
+        return result.ifEmpty { throw ValidationError("Игроков не найдено") }
+    }
+
+    override fun getAllPlayersArchived(): List<PlayerSimpleOutput> {
+        val ent = repo.getAllPlayersArchived()
         val result = ent.map{ playerEntity ->
             val url = playerEntity.photo?.let {
                 minioService.getObject(it)?.url

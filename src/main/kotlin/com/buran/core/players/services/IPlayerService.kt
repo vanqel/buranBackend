@@ -15,4 +15,6 @@ interface IPlayerService {
     fun getPlayersSimple(id: List<Long>): List<PlayerSimpleOutput>
 
     fun getAllPlayers(): List<PlayerSimpleOutput>
+    fun getAllPlayersArchived(): List<PlayerSimpleOutput>
+
 }

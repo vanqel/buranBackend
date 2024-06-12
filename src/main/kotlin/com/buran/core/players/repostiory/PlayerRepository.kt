@@ -16,18 +16,18 @@ import java.util.*
 @Transactional
 class PlayerRepository : IPlayerRepository {
     override fun createPlayer(body: PlayerCreateInput): PlayerEntity {
-        return PlayerEntity(transaction {
-            val a = PlayerTable.insertAndGetId {
-                it[name] = body.name
-                it[biography] = body.biography
-                it[number] = body.number
-                it[photo] = UUID.fromString(body.photo)
-                it[birthDate] = body.birthDate
-                it[type] = body.type
-            }
-            commit()
-            return@transaction a
-        } )
+        val id = PlayerTable.insertAndGetId {
+            it[name] = body.name
+            it[biography] = body.biography
+            it[number] = body.number
+            it[photo] = UUID.fromString(body.photo)
+            it[birthDate] = body.birthDate
+            it[type] = body.type
+            it[archived] = false
+        }
+
+
+        return getPlayer(id.value)!!
     }
 
     override fun updatePlayer(body: PlayerUpdateInput): PlayerEntity {
@@ -68,8 +68,13 @@ class PlayerRepository : IPlayerRepository {
     }
 
     override fun getAllPlayers(): List<PlayerEntity> {
-        return PlayerEntity.all().toList()
+        return PlayerEntity.find { PlayerTable.archived eq false }.toList()
     }
+
+    override fun getAllPlayersArchived(): List<PlayerEntity> {
+        return PlayerEntity.find { PlayerTable.archived eq true }.toList()
+    }
+
 
     override fun getPlayers(id: List<Long>): List<PlayerEntity> {
         return PlayerEntity.find {
