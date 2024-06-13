@@ -10,7 +10,7 @@ interface IMatchService {
 
     fun getMatch(id: Long): MatchOutput?
 
-    fun createMatch(season: String, body: MatchCreateInput): MatchOutput
+    fun createMatch(body: MatchCreateInput): MatchOutput
 
     fun updateMatch(id: Long, body: MatchCreateInput): MatchOutput
 

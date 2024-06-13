@@ -49,9 +49,9 @@ class MatchService(
         return result
     }
 
-    override fun createMatch(season: String, body: MatchCreateInput): MatchOutput {
+    override fun createMatch(body: MatchCreateInput): MatchOutput {
         val match = repo.createMatch(
-            seasonService.getSeasonFromTitle(season).id.value, body
+            seasonService.getSeasonFromTitle(body.seasonTitle).id.value, body
         )
         return convertEntityToDTO(match)!!
     }

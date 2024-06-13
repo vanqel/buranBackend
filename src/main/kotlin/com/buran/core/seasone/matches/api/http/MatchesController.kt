@@ -35,9 +35,8 @@ class MatchesController(
      */
     @PostMapping(RegAPI.MATCHES_SEASON)
     fun postMatch(
-        @RequestParam season: String,
         @RequestBody body: MatchCreateInput,
-    ) = ResponseEntity.ok(service.createMatch(season, body))
+    ) = ResponseEntity.ok(service.createMatch(body))
 
     /**
      * Удалить матч
