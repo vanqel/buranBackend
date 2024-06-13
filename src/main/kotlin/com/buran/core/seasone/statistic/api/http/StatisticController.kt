@@ -38,4 +38,10 @@ class StatisticController {
         return null
     }
 
+    @GetMapping("${RegAPI.STATISTIC_SEASON}/match/{match_id}")
+    fun getStatisticMatchBySeason(
+        @PathVariable season: String,
+    ): Any? {
+        return null
+    }
 }
