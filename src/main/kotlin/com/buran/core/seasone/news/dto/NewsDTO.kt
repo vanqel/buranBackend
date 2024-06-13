@@ -5,6 +5,6 @@ import java.time.LocalDateTime
 data class NewsDTO(
     val title: String,
     val text: String,
-    val image: List<String?>,
+    val image: String,
     val date: LocalDateTime
 )

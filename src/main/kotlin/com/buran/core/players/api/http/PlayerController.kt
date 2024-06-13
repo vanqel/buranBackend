@@ -74,7 +74,7 @@ class PlayerController(
     /**
      * Поиск всех игроков
      */
-    @GetMapping("archived")
+    @GetMapping("/archived")
     fun getPlayersArchived(): ResponseEntity<List<PlayerSimpleOutput>> {
         return ResponseEntity.ok(service.getAllPlayersArchived())
     }

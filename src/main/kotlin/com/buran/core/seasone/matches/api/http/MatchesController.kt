@@ -17,7 +17,7 @@ class MatchesController(
      */
     @GetMapping(RegAPI.MATCHES_SEASON)
     fun getAllMatches(
-        @PathVariable season: String,
+        @RequestParam season: String,
     ): ResponseEntity<List<MatchOutput?>> {
         return ResponseEntity.ok(service.getMatchesBySeason(season))
     }
@@ -27,7 +27,6 @@ class MatchesController(
      */
     @GetMapping("${RegAPI.MATCHES_SEASON}/{id_match}")
     fun getMatch(
-        @PathVariable season: String,
         @PathVariable id_match: Long,
     ) = ResponseEntity.ok(service.getMatch(id_match))
 
@@ -36,7 +35,7 @@ class MatchesController(
      */
     @PostMapping(RegAPI.MATCHES_SEASON)
     fun postMatch(
-        @PathVariable season: String,
+        @RequestParam season: String,
         @RequestBody body: MatchCreateInput,
     ) = ResponseEntity.ok(service.createMatch(season, body))
 
@@ -45,7 +44,6 @@ class MatchesController(
      */
     @DeleteMapping("${RegAPI.MATCHES_SEASON}/{id_match}")
     fun delMatch(
-        @PathVariable season: String,
         @PathVariable id_match: Long,
     ) = ResponseEntity.ok(service.deleteMatch(id_match))
 
@@ -54,7 +52,6 @@ class MatchesController(
      */
     @PutMapping("${RegAPI.MATCHES_SEASON}/{id_match}")
     fun putMatch(
-        @PathVariable season: String,
         @PathVariable id_match: Long,
         @RequestBody body: MatchCreateInput,
     ) = ResponseEntity.ok(service.updateMatch(id_match, body))
@@ -64,7 +61,6 @@ class MatchesController(
      */
     @PostMapping("${RegAPI.MATCHES_SEASON}/{id_match}/result")
     fun postMatchResult(
-        @PathVariable season: String,
         @PathVariable id_match: Long,
         @RequestBody body: MatchResult,
     ) = ResponseEntity.ok(service.updateMatchResult(id_match, body))
@@ -74,7 +70,6 @@ class MatchesController(
      */
     @GetMapping("${RegAPI.MATCHES_SEASON}/{id_match}/result")
     fun getMatchResult(
-        @PathVariable season: String,
         @PathVariable id_match: Long,
     ) = ResponseEntity.ok(service.getMatchResults(id_match))
 }

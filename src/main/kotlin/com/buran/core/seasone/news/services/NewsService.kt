@@ -21,8 +21,9 @@ class NewsService(
 
     override fun newNews(obj: NewsDTO, season: String): NewsOutput {
         val listImageLink: MutableList<String> = mutableListOf()
-        val news = repo.newNews(obj, getSeasonId(season)).let { e ->
-            obj.image.filterNotNull().forEach {
+        val seasonId = getSeasonId(season)
+        val news = repo.newNews(obj,seasonId ).let { e ->
+            obj.image.let {
                 try {
                     listImageLink.add(
                         images.putLink(
@@ -32,7 +33,8 @@ class NewsService(
                             )
                         )
                     )
-                } catch (e: Exception) {
+                } catch (er: Exception) {
+                    repo.delNews(e.id.value)
                     throw ValidationError("Не верно заполнен лист изображений")
                 }
             }
@@ -52,7 +54,7 @@ class NewsService(
     override fun updateNews(id: Long, obj: NewsDTO): NewsOutput {
         repo.getNewsById(id)?.let { e ->
             val listImageLink: MutableList<String> = mutableListOf()
-            obj.image.filterNotNull().forEach {
+            obj.image.let {
                 try {
                     listImageLink.add(
                         images.putLink(

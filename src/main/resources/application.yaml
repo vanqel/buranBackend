@@ -12,6 +12,7 @@ spring:
       name: "buran_manager"
       password: "buran_manager_pwd"
       roles: "ADMIN"
+
   banner:
     location: banner.txt
   config:

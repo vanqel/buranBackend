@@ -1,6 +1,5 @@
 package com.buran.core.seasone.matches.dto
 
-import com.buran.core.seasone.matches.models.TeamsMatchEntity
 import java.time.LocalDateTime
 
 data class MatchCreateOutput(

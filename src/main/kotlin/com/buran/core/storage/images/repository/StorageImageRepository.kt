@@ -22,11 +22,11 @@ class StorageImageRepository : IStorageImageRepository {
         }
     }
 
-    override fun getLink(image: CreateImageLink): ImageEntity {
+    override fun getLink(image: CreateImageLink): ImageEntity? {
         return ImageEntity.find {
             ImagesTable.parentKey eq image.parentKey
             ImagesTable.id eq image.image
-        }.first()
+        }.firstOrNull()
     }
 
     override fun getListImages(parentKey: UUID): List<ImageEntity?> {

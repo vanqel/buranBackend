@@ -9,6 +9,6 @@ import org.jetbrains.exposed.dao.id.EntityID
 class TeamsMatchEntity(id: EntityID<Long>): ExtendedLongEntity(id, MatchTeams){
     companion object : LongEntityClass<TeamsMatchEntity>(MatchTeams)
 
-    var matchId by MatchEntity via MatchTeams
-    var teamId by PlayerEntity via MatchTeams
+    var matchId by MatchTeams.match
+    var teamId by MatchTeams.team
 }

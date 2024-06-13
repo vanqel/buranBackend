@@ -1,14 +1,14 @@
 package com.buran.core.seasone.news.repository
 
+import com.buran.core.seasone.core.models.SeasonEntity
 import com.buran.core.seasone.news.dto.NewsDTO
 import com.buran.core.seasone.news.models.NewsEntity
-import org.jetbrains.exposed.dao.id.EntityID
 
 interface INewsRepository {
 
-    fun newNews(body: NewsDTO, season: EntityID<Long>): NewsEntity
+    fun newNews(body: NewsDTO, season: SeasonEntity): NewsEntity
 
-    fun getNews(season: EntityID<Long>): List<NewsEntity>
+    fun getNews(season: SeasonEntity): List<NewsEntity>
 
     fun delNews(id: Long): Boolean
 

@@ -18,7 +18,7 @@ class MatchService(
 
 
     override fun getMatchesBySeason(season: String): List<MatchOutput?> {
-        val matches = repo.getMatchesBySeason(seasonService.getSeasonFromTitle(season).value)
+        val matches = repo.getMatchesBySeason(seasonService.getSeasonFromTitle(season).id.value)
         val result = matches.filterNotNull().map { convertEntityToDTO(it) }
         return result
     }
@@ -29,17 +29,16 @@ class MatchService(
     }
 
     fun convertEntityToDTO(match: MatchCreateOutput?): MatchOutput? {
-        val result = match?.let {
+        val result = match?.let { matchCreateOutput ->
             MatchOutput(
-                id = it.id,
-                enemy = it.enemy,
-                dateStart = it.dateStart,
-                team = playerService.getPlayersSimple(it.team),
-                title = it.title,
-                actions = repo.getMatchResults(it.id).filterNotNull().map {
+                id = matchCreateOutput.id,
+                enemy = matchCreateOutput.enemy,
+                dateStart = matchCreateOutput.dateStart,
+                team = playerService.getPlayersSimple(matchCreateOutput.team),
+                title = matchCreateOutput.title,
+                actions = repo.getMatchResults(matchCreateOutput.id).filterNotNull().map {
                     MatchResult(
-                        matchId = it.matchId.first().id.value,
-                        playerId = it.playerId.first().id.value,
+                        playerId = it.playerId?.value,
                         minutes = it.minutes,
                         action = it.action,
                         enemy = it.enemy
@@ -51,7 +50,9 @@ class MatchService(
     }
 
     override fun createMatch(season: String, body: MatchCreateInput): MatchOutput {
-        val match = repo.createMatch(seasonService.getSeasonFromTitle(season).value, body)
+        val match = repo.createMatch(
+            seasonService.getSeasonFromTitle(season).id.value, body
+        )
         return convertEntityToDTO(match)!!
     }
 
@@ -71,7 +72,6 @@ class MatchService(
 
     override fun getMatchResults(id: Long): MatchResultOutput {
         val match = repo.getMatchResults(id).map { it?.toDto() }
-            .ifEmpty { throw ValidationError("Результаты матча не найдены") }
         val enemyScore = match.filterNotNull().filter { it.enemy && it.action == MatchAction.GOAL }.size
         val teamScore = match.filterNotNull().filter { !it.enemy && it.action == MatchAction.GOAL }.size
         return MatchResultOutput(

@@ -30,8 +30,8 @@ class SeasonRepository : ISeasonRepository {
         return SeasonTable.deleteWhere { SeasonTable.title eq title } == 1
     }
 
-    override fun getIdFromTitle(title: String): EntityID<Long> {
-        return SeasonEntity.find { SeasonTable.title eq title }.first().id
+    override fun getIdFromTitle(title: String): SeasonEntity {
+        return SeasonEntity.find { SeasonTable.title eq title }.first()
     }
 
 }

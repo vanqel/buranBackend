@@ -15,17 +15,17 @@ class StorageImageService(
 ) : IStorageImageService {
     override fun putLink(image: CreateImageLink): String {
         val find = repo.getLink(image)
-        return if ( find == null){
-                try {
-                    val url = minioService.getObject(image.image)?.url
-                    if (url != null) {
-                        repo.addLink(image)
-                        url
-                    } else throw ValidationError("Изображение не найдено")
-                } catch (e: Exception) {
-                    throw GeneralError("Ошибка загрузки изображения")
-                }
-            } else minioService.getObject(image.image)!!.url!!
+        return if (find == null) {
+            try {
+                val url = minioService.getObject(image.image)?.url
+                if (url != null) {
+                    repo.addLink(image)
+                    url
+                } else minioService.getObject(image.image)!!.url!!
+            } catch (e: Exception) {
+                throw GeneralError("Ошибка загрузки изображения")
+            }
+        } else throw ValidationError("Изображение не найдено")
 
     }
 
@@ -56,7 +56,7 @@ class StorageImageService(
                 minioService.delObject(it.id.value.toString())
             }
             return repo.deleteLinkAll(uuid)
-        } catch (e: Exception){
+        } catch (e: Exception) {
             throw GeneralError("Ошибка очистки изображений")
         }
 

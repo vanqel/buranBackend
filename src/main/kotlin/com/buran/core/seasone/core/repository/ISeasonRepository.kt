@@ -11,5 +11,5 @@ interface ISeasonRepository {
 
     fun deleteSeason(title: String): Boolean
 
-    fun getIdFromTitle(title: String): EntityID<Long>
+    fun getIdFromTitle(title: String): SeasonEntity
 }
