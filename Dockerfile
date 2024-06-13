@@ -1,4 +1,4 @@
-FROM gradle:8.6-jdk11 AS build
+FROM gradle:8.8-jdk21 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle clean
@@ -9,5 +9,6 @@ ARG VERSION=1.0.0
 ARG PROJECT=buran
 ENV JARNAME=$PROJECT-$VERSION.jar
 COPY --from=build /home/gradle/src/build/libs/$JARNAME  /
+EXPOSE 8090:8090
 ENTRYPOINT java -jar $JARNAME
 
