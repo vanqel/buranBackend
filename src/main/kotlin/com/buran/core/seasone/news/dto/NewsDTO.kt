@@ -1,10 +1,10 @@
 package com.buran.core.seasone.news.dto
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 data class NewsDTO(
     val title: String,
     val text: String,
     val image: String,
-    val date: LocalDateTime
+    val date: LocalDate
 )
