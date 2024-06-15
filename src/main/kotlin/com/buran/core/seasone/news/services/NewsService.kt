@@ -20,19 +20,19 @@ class NewsService(
     private fun getSeasonId(title: String) = seasonService.getSeasonFromTitle(title)
 
     override fun newNews(obj: NewsDTO, season: String): NewsOutput {
-        val listImageLink: MutableList<String> = mutableListOf()
         val seasonId = getSeasonId(season)
+        var img = " "
         val news = repo.newNews(obj, seasonId).let { e ->
-            obj.image.let {
+            img = obj.image.let {
                 try {
-                    listImageLink.add(
-                        images.putLink(
-                            CreateImageLink(
-                                e.parentKey,
-                                UUID.fromString(it)
-                            )
+
+                    images.putLink(
+                        CreateImageLink(
+                            e.parentKey,
+                            UUID.fromString(it)
                         )
                     )
+
                 } catch (er: Exception) {
                     repo.delNews(e.id.value)
                     throw ValidationError("Не верно заполнен лист изображений")
@@ -40,7 +40,7 @@ class NewsService(
             }
             e
         }
-        return NewsOutput(news.id.value, news.title, news.text, listImageLink)
+        return NewsOutput(news.id.value, news.title, news.text, img, news.date)
     }
 
     override fun delNews(id: Long): Boolean {
@@ -53,38 +53,37 @@ class NewsService(
 
     override fun updateNews(id: Long, obj: NewsDTO): NewsOutput {
         repo.getNewsById(id)?.let { e ->
-            val listImageLink: MutableList<String> = mutableListOf()
             images.deleteLinkAll(
                 e.parentKey
             )
-            obj.image.let {
+            val imgUrl = obj.image.let {
                 try {
-                    listImageLink.add(
-                        images.putLink(
-                            CreateImageLink(
-                                e.parentKey,
-                                UUID.fromString(it)
-                            )
+
+                    images.putLink(
+                        CreateImageLink(
+                            e.parentKey,
+                            UUID.fromString(it)
                         )
+
                     )
                 } catch (e: Exception) {
                     throw ValidationError("Не верно заполнен лист изображений")
                 }
             }
             val result = repo.updateNews(id, obj)
-            return NewsOutput(result.id.value, result.title, result.text, listImageLink)
+            return NewsOutput(result.id.value, result.title, result.text, imgUrl, result.date)
         } ?: throw ValidationError("Новость не найдена")
     }
 
     override fun getAllNews(season: String): List<NewsOutput> {
         return repo.getNews(getSeasonId(season)).map {
-            NewsOutput(it.id.value, it.title, it.text, images.getListImages(it.parentKey))
+            NewsOutput(it.id.value, it.title, it.text, images.getListImages(it.parentKey).first(), it.date)
         }
     }
 
     override fun getNews(id: Long): NewsOutput {
         return repo.getNewsById(id)?.let {
-            NewsOutput(it.id.value, it.title, it.text, images.getListImages(it.parentKey))
+            NewsOutput(it.id.value, it.title, it.text, images.getListImages(it.parentKey).first(), it.date)
         } ?: throw ValidationError("Новость не найдена")
     }
 }
