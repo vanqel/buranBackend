@@ -3,6 +3,7 @@ package com.buran.core.players.models
 import com.buran.core.config.ExtendedLongIdTable
 import com.buran.core.players.enums.PlayerType
 import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.date
 import java.time.LocalDate
 import java.util.*
@@ -16,6 +17,7 @@ object PlayerTable: ExtendedLongIdTable(name = "players") {
     val type: Column<PlayerType> = enumeration("type", PlayerType::class)
     val archived: Column<Boolean> = bool("archived").default(false)
 }
+
 
 
 

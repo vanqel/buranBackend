@@ -31,13 +31,49 @@ class WebConfig(
             .sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
+//            .authorizeHttpRequests {
+//                it
+//                    .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+//                    .requestMatchers(HttpMethod.PUT).authenticated()
+//                    .requestMatchers(HttpMethod.DELETE).authenticated()
+//                    .requestMatchers(
+//                        HttpMethod.GET,
+//                        "/api/auth/me",
+//                        "/api/token/validate",
+//                        "/api/token/validateUser"
+//                    ).authenticated()
+//                    .requestMatchers(
+//                        HttpMethod.GET,
+//                        "/api/storage",
+//                        "/api/seasons/news",
+//                        "/api/seasons/news/{id_news}",
+//                        "/api/seasons",
+//                        "/api/seasons/matches",
+//                        "/api/seasons/matches/{id_match}",
+//                        "/api/seasons/matches/{id_match}/result",
+//                        "/api/players",
+//                        "/api/players/archived",
+//                        "/api/players/{playerId}",
+//                        "/api/seasons/stats",
+//                        "/api/seasons/stats/match/{match_id}",
+//                        "/api/seasons/stats/players",
+//                        "/api/seasons/stats/{playerId}",
+//                        "/api/seasons/stats/{playerId}/{idMatch}"
+//                    ).permitAll()
+//
+//                    .anyRequest().authenticated()
+//
+//            }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers(HttpMethod.POST, "/user/register", "/auth/login").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/token/validate", "/token/validateUser").authenticated()
-                    .requestMatchers(HttpMethod.OPTIONS).authenticated()
-                    .requestMatchers(HttpMethod.GET, "/auth/me").authenticated()
-                    .anyRequest().permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/auth/me", "/api/token/validate", "/api/token/validateUser")
+                    .authenticated()
+                    .requestMatchers(HttpMethod.POST, "/api/auth/login")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET)
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
             }
             .addFilter(
                 JWTAuthorizationFilter(
