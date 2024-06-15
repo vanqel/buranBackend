@@ -54,6 +54,9 @@ class NewsService(
     override fun updateNews(id: Long, obj: NewsDTO): NewsOutput {
         repo.getNewsById(id)?.let { e ->
             val listImageLink: MutableList<String> = mutableListOf()
+            images.deleteLinkAll(
+                e.parentKey
+            )
             obj.image.let {
                 try {
                     listImageLink.add(

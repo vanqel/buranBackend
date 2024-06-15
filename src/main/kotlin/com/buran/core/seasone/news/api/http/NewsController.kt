@@ -42,5 +42,13 @@ class NewsController(
     ): Boolean {
         return service.delNews(id_news)
     }
+    
+    @PutMapping("${RegAPI.NEWS_SEASON}/{id_news}")
+    fun putNews(
+        @PathVariable id_news: Long,
+        @RequestBody body: NewsDTO
+    ): NewsOutput {
+        return service.updateNews(id_news, body)
+    }
 }
 
