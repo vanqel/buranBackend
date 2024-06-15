@@ -15,14 +15,14 @@ class NewsService(
     val seasonService: ISeasonService,
     val images: IStorageImageService,
     val repo: INewsRepository,
-): INewsService {
+) : INewsService {
 
     private fun getSeasonId(title: String) = seasonService.getSeasonFromTitle(title)
 
     override fun newNews(obj: NewsDTO, season: String): NewsOutput {
         val listImageLink: MutableList<String> = mutableListOf()
         val seasonId = getSeasonId(season)
-        val news = repo.newNews(obj,seasonId ).let { e ->
+        val news = repo.newNews(obj, seasonId).let { e ->
             obj.image.let {
                 try {
                     listImageLink.add(
@@ -40,7 +40,7 @@ class NewsService(
             }
             e
         }
-        return NewsOutput(news.title, news.text, listImageLink)
+        return NewsOutput(news.id.value, news.title, news.text, listImageLink)
     }
 
     override fun delNews(id: Long): Boolean {
@@ -69,19 +69,19 @@ class NewsService(
                 }
             }
             val result = repo.updateNews(id, obj)
-            return NewsOutput(result.title, result.text, listImageLink)
+            return NewsOutput(result.id.value, result.title, result.text, listImageLink)
         } ?: throw ValidationError("Новость не найдена")
     }
 
     override fun getAllNews(season: String): List<NewsOutput> {
         return repo.getNews(getSeasonId(season)).map {
-            NewsOutput(it.title, it.text, images.getListImages(it.parentKey))
+            NewsOutput(it.id.value, it.title, it.text, images.getListImages(it.parentKey))
         }
     }
 
     override fun getNews(id: Long): NewsOutput {
         return repo.getNewsById(id)?.let {
-            NewsOutput(it.title, it.text, images.getListImages(it.parentKey))
-        }?: throw ValidationError("Новость не найдена")
+            NewsOutput(it.id.value, it.title, it.text, images.getListImages(it.parentKey))
+        } ?: throw ValidationError("Новость не найдена")
     }
 }

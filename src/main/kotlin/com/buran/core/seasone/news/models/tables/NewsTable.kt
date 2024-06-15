@@ -11,7 +11,7 @@ import java.util.UUID
 object NewsTable : ExtendedLongIdTable(name = "news_seasons") {
     val parentKey : Column<UUID> = uuid("parentKey").autoGenerate()
     val title: Column<String> = varchar("title", 255)
-    val text: Column<String> = varchar("text", 255)
+    val text: Column<String> = text("text")
     val date: Column<LocalDate> = date("date")
     val season = reference(
         "seasons_id",
