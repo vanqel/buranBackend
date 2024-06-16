@@ -9,5 +9,6 @@ data class PlayerFullOutput(
     val biography: String,
     val birthDate: String,
     val type: PlayerType,
-    val url: String? = null,
+    val url: String,
+    val img: String
 )

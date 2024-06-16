@@ -7,6 +7,6 @@ data class PlayerSimpleOutput (
     val name: String,
     val number: Int,
     val type: PlayerType,
-    val url : String? = null
-
+    val url : String,
+    val img: String
 )

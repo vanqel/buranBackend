@@ -17,13 +17,14 @@ class PlayerService(
 ) : IPlayerService {
 
     override fun createPlayer(body: PlayerCreateInput): PlayerFullOutput {
-        return repo.createPlayer(body).toFullOutput(minioService.getObject(UUID.fromString(body.photo))?.url)
+        return repo.createPlayer(body)
+            .toFullOutput(minioService.getObject(UUID.fromString(body.photo))!!)
     }
 
     override fun updatePlayer(body: PlayerUpdateInput): PlayerFullOutput {
         return repo.updatePlayer(body).toFullOutput(
-            body.photo?.let {
-                minioService.getObject(it)?.url
+            body.photo.let {
+                minioService.getObject(it!!)!!
             }
         )
     }
@@ -34,19 +35,19 @@ class PlayerService(
 
     override fun getPlayer(id: Long): PlayerFullOutput {
         val ent = repo.getPlayer(id)
-        val url = ent?.photo?.let {
-            minioService.getObject(it)?.url
+        val url = ent?.photo.let {
+            minioService.getObject(it!!)!!
         }
         return ent?.toFullOutput(url) ?: throw ValidationError("Игрок не найден")
     }
 
     override fun getPlayers(id: List<Long>): List<PlayerFullOutput> {
         val ent = repo.getPlayers(id)
-        val result = ent.map{ playerEntity ->
-            val url = playerEntity.photo?.let {
-                minioService.getObject(it)?.url
+        val result = ent.map { playerEntity ->
+            val url = playerEntity.photo.let {
+                minioService.getObject(it)
             }
-            playerEntity.toFullOutput(url)
+            playerEntity.toFullOutput(url!!)
         }
         return result.ifEmpty { throw ValidationError("Игроки не найдены") }
     }
@@ -54,41 +55,41 @@ class PlayerService(
     override fun getPlayerSimple(id: Long): PlayerSimpleOutput {
         val ent = repo.getPlayer(id)
         val url = ent?.photo?.let {
-            minioService.getObject(it)?.url
+            minioService.getObject(it)
         }
-        return ent?.toSimpleOutput(url) ?: throw ValidationError("Игрок не найден")
+        return ent?.toSimpleOutput(url!!) ?: throw ValidationError("Игрок не найден")
 
     }
 
     override fun getPlayersSimple(id: List<Long>): List<PlayerSimpleOutput> {
         val ent = repo.getPlayers(id)
-        val result = ent.map{ playerEntity ->
-            val url = playerEntity.photo?.let {
-                minioService.getObject(it)?.url
+        val result = ent.map { playerEntity ->
+            val url = playerEntity.photo.let {
+                minioService.getObject(it)
             }
-            playerEntity.toSimpleOutput(url)
+            playerEntity.toSimpleOutput(url!!)
         }
         return result.ifEmpty { throw ValidationError("Игроки не найдены") }
     }
 
     override fun getAllPlayers(): List<PlayerSimpleOutput> {
         val ent = repo.getAllPlayers()
-        val result = ent.map{ playerEntity ->
-            val url = playerEntity.photo?.let {
-                minioService.getObject(it)?.url
+        val result = ent.map { playerEntity ->
+            val url = playerEntity.photo.let {
+                minioService.getObject(it)
             }
-            playerEntity.toSimpleOutput(url)
+            playerEntity.toSimpleOutput(url!!)
         }
         return result.ifEmpty { throw ValidationError("Игроков не найдено") }
     }
 
     override fun getAllPlayersArchived(): List<PlayerSimpleOutput> {
         val ent = repo.getAllPlayersArchived()
-        val result = ent.map{ playerEntity ->
-            val url = playerEntity.photo?.let {
-                minioService.getObject(it)?.url
+        val result = ent.map { playerEntity ->
+            val url = playerEntity.photo.let {
+                minioService.getObject(it)
             }
-            playerEntity.toSimpleOutput(url)
+            playerEntity.toSimpleOutput(url!!)
         }
         return result.ifEmpty { throw ValidationError("Игроков не найдено") }
     }

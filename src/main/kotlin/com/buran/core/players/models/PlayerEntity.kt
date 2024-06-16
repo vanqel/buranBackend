@@ -5,6 +5,7 @@ import com.buran.core.players.dto.PlayerFullOutput
 import com.buran.core.players.dto.PlayerSimpleOutput
 import com.buran.core.seasone.core.models.SeasonEntity
 import com.buran.core.seasone.matches.models.tables.MatchTable
+import com.buran.core.storage.core.service.FileOutput
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 
@@ -18,17 +19,18 @@ class PlayerEntity(id: EntityID<Long>): ExtendedLongEntity(id, PlayerTable) {
     var archived by PlayerTable.archived
     var type by PlayerTable.type
 
-    fun toSimpleOutput(urlPh: String?): PlayerSimpleOutput {
+    fun toSimpleOutput(ph: FileOutput): PlayerSimpleOutput {
         return PlayerSimpleOutput(
             id = id.value,
             name = name,
             number = number,
             type = type,
-            url = urlPh
+            url = ph.url.toString(),
+            img = ph.uuid.toString()
         )
     }
 
-    fun toFullOutput(urlPh: String?): PlayerFullOutput {
+    fun toFullOutput(ph: FileOutput): PlayerFullOutput {
         return PlayerFullOutput(
             id = id.value,
             name = name,
@@ -36,7 +38,8 @@ class PlayerEntity(id: EntityID<Long>): ExtendedLongEntity(id, PlayerTable) {
             biography = biography,
             birthDate = birthDate.toString(),
             type = type,
-            url = urlPh
+            url = ph.url.toString(),
+            img = ph.uuid.toString()
         )
     }
 }
