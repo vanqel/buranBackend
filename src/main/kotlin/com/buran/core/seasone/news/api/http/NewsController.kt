@@ -14,7 +14,6 @@ class NewsController(
 
     @GetMapping("${RegAPI.NEWS_SEASON}/{id_news}")
     fun getNews(
-        @RequestParam season: String,
         @PathVariable id_news: Long,
     ): NewsOutput {
         return service.getNews(id_news)
@@ -37,7 +36,6 @@ class NewsController(
 
     @DeleteMapping("${RegAPI.NEWS_SEASON}/{id_news}")
     fun delNews(
-        @RequestParam season: String,
         @PathVariable id_news: Long,
     ): Boolean {
         return service.delNews(id_news)
