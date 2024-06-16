@@ -7,5 +7,4 @@ data class MatchCreateOutput(
     val enemy: String,
     val dateStart: LocalDateTime,
     val team: List<Long>,
-    val title: String
 )

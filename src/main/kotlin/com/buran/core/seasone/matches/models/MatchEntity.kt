@@ -12,7 +12,6 @@ class MatchEntity(id: EntityID<Long>): ExtendedLongEntity(id, MatchTable){
     companion object: LongEntityClass<MatchEntity>(MatchTable)
 
     val season by  MatchTable.season
-    var title by MatchTable.title
     var enemy by MatchTable.enemy
     var dateTimeStart by MatchTable.dateTimeStart
 }

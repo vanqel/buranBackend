@@ -4,7 +4,6 @@ import java.time.LocalDateTime
 
 data class MatchCreateInput (
     val seasonTitle: String,
-    val title: String,
     val enemy: String,
     val dateTimeStart: LocalDateTime,
     val team: List<Long>

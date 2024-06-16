@@ -19,7 +19,6 @@ object MatchTable: ExtendedLongIdTable(name = "matches") {
         SeasonTable,
         onDelete = ReferenceOption.CASCADE
     )
-    val title: Column<String> = varchar("title", 255)
     val enemy: Column<String> = varchar("enemy", 255)
     val dateTimeStart: Column<LocalDateTime> = datetime("dateTime")
 }

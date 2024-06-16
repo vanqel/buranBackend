@@ -8,6 +8,5 @@ data class MatchOutput(
     val enemy: String,
     val dateStart: LocalDateTime,
     val team: List<PlayerSimpleOutput>,
-    val title: String,
     val actions: List<MatchResult?>
 )

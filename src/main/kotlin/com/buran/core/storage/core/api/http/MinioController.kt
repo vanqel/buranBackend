@@ -34,3 +34,6 @@ class MinioController(
     }
 }
 
+// "019c309c-fa5a-4c5e-9329-caaa9e83c870" клюшки
+// "e96d417a-5780-4c68-8190-6a58ace297c4" кхл
+// "17018325-36ee-4b17-b6ee-5aad4ce8ea52" buran

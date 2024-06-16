@@ -32,7 +32,6 @@ class MatchRepository(
                 enemy = m.enemy,
                 dateStart = m.dateTimeStart,
                 team = TeamsMatchEntity.find { MatchTeams.match eq m.id }.map { it.teamId.value },
-                title = m.title
             )
         }
     }
@@ -44,7 +43,6 @@ class MatchRepository(
                 enemy = it.enemy,
                 dateStart = it.dateTimeStart,
                 team = TeamsMatchEntity.find { MatchTeams.match eq it.id }.map { it.teamId.value },
-                title = it.title
             )
         } ?: throw ValidationError("Матч не найден")
     }
@@ -53,7 +51,6 @@ class MatchRepository(
         return transaction {
             val a = MatchTable.insertAndGetId {
                 it[season] = s
-                it[title] = body.title
                 it[enemy] = body.enemy
                 it[dateTimeStart] = body.dateTimeStart
             }
@@ -69,7 +66,6 @@ class MatchRepository(
                 enemy = body.enemy,
                 dateStart = body.dateTimeStart,
                 team = body.team,
-                title = body.title
             )
         }
     }
@@ -77,7 +73,6 @@ class MatchRepository(
     override fun updateMatch(id: Long, body: MatchCreateInput): MatchCreateOutput {
         return transaction {
             MatchTable.update({ MatchTable.id eq id }) {
-                it[title] = body.title
                 it[enemy] = body.enemy
                 it[dateTimeStart] = body.dateTimeStart
             }
@@ -94,7 +89,6 @@ class MatchRepository(
                 enemy = body.enemy,
                 dateStart = body.dateTimeStart,
                 team = body.team,
-                title = body.title
             )
         }
     }
