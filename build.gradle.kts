@@ -42,14 +42,14 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
 
+    // SWAGGER
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+
     //  JWT
     val jwtVersion = "0.11.5"
     implementation("io.jsonwebtoken:jjwt-api:$jwtVersion")
     implementation("io.jsonwebtoken:jjwt-impl:$jwtVersion")
     implementation("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
-
-    //  OBSERVABILITY
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     //  LOGGING
     implementation("org.apache.logging.log4j:log4j-api-kotlin:1.4.0")
