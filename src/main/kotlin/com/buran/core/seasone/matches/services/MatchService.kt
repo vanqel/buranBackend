@@ -35,7 +35,6 @@ class MatchService(
                 enemy = matchCreateOutput.enemy,
                 dateStart = matchCreateOutput.dateStart,
                 team = playerService.getPlayersSimple(matchCreateOutput.team),
-                title = matchCreateOutput.title,
                 actions = repo.getMatchResults(matchCreateOutput.id).filterNotNull().map {
                     MatchResult(
                         playerId = it.playerId?.value,
