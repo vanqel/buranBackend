@@ -7,10 +7,13 @@ import com.buran.core.players.services.PlayerService
 import com.buran.core.seasone.core.services.SeasonService
 import com.buran.core.seasone.matches.enums.MatchAction
 import com.buran.core.seasone.statistic.dto.*
+import com.buran.core.seasone.statistic.models.ManualTable
 import com.buran.core.seasone.statistic.models.MatchResultStatsView
 import com.buran.core.seasone.statistic.models.PlayerStatsView
 import com.buran.core.seasone.statistic.models.SeasonStatsView
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.jetbrains.exposed.sql.deleteAll
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -184,10 +187,46 @@ class StatisticRepository(
 
     override fun getStatisticPlayerByMatch(playerId: Long, match: Long): StatisticPlayer? {
         return getStatsPlayersFromMatch(match).ifEmpty { null }
-            ?.let { p -> p.first { it!!.player.id == playerId }?.toStatisticPlayer() }    }
+            ?.let { p -> p.first { it!!.player.id == playerId }?.toStatisticPlayer() }
+    }
 
     override fun getStatisticPlayerBySeason(playerId: Long, season: String): StatisticPlayer? {
         return getStatsPlayersFromSeason(season).ifEmpty { null }
             ?.let { p -> p.first { it!!.player.id == playerId }?.toStatisticPlayer() }
+    }
+
+
+    override fun putManualTable(b: ManualTableDTO): ManualTableDTO {
+        ManualTable.deleteAll()
+        ManualTable.insert {
+            it[n] = 0
+            it[i] = 0
+            it[vo] = 0
+            it[vb] = 0
+            it[pb] = 0
+            it[po] = 0
+            it[p] = 0
+            it[sh] = ""
+            it[o] = 0
+            it[pero] = 0.0
+        }
+        return b
+    }
+
+    override fun getManualTable(): ManualTableDTO {
+        return ManualTable.selectAll().firstOrNull()?.let {
+            ManualTableDTO(
+                it[ManualTable.n],
+                it[ManualTable.i],
+                it[ManualTable.vo],
+                it[ManualTable.vb],
+                it[ManualTable.pb],
+                it[ManualTable.po],
+                it[ManualTable.p],
+                it[ManualTable.sh],
+                it[ManualTable.o],
+                it[ManualTable.pero],
+            )
+        } ?: ManualTableDTO(0, 0, 0, 0, 0, 0, 0, "", 0, 0.0)
     }
 }

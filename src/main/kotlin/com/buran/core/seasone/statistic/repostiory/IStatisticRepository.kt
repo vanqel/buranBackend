@@ -1,5 +1,6 @@
 package com.buran.core.seasone.statistic.repostiory
 
+import com.buran.core.seasone.statistic.dto.ManualTableDTO
 import com.buran.core.seasone.statistic.dto.StatisticMatch
 import com.buran.core.seasone.statistic.dto.StatisticPlayer
 import com.buran.core.seasone.statistic.dto.StatisticSeason
@@ -26,4 +27,8 @@ interface IStatisticRepository {
         playerId: Long,
         season: String,
     ): StatisticPlayer?
+
+    fun putManualTable(b: ManualTableDTO): ManualTableDTO
+
+    fun getManualTable(): ManualTableDTO
 }

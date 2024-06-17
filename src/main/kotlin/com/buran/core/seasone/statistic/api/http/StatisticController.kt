@@ -1,14 +1,12 @@
 package com.buran.core.seasone.statistic.api.http
 
 import com.buran.core.seasone.RegAPI
+import com.buran.core.seasone.statistic.dto.ManualTableDTO
 import com.buran.core.seasone.statistic.dto.StatisticMatch
 import com.buran.core.seasone.statistic.dto.StatisticPlayer
 import com.buran.core.seasone.statistic.dto.StatisticSeason
 import com.buran.core.seasone.statistic.repostiory.IStatisticRepository
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class StatisticController(
@@ -50,4 +48,10 @@ class StatisticController(
     ): StatisticMatch {
         return statisticRepository.getStatisticMatchBySeason(match_id)
     }
+
+    @GetMapping("${RegAPI.STATISTIC_SEASON}/statsTable")
+    fun getStatsManual() = statisticRepository.getManualTable()
+
+    @PutMapping("${RegAPI.STATISTIC_SEASON}/statsTable")
+    fun putStatsManual(@RequestBody stats: ManualTableDTO) = statisticRepository.putManualTable(stats)
 }
