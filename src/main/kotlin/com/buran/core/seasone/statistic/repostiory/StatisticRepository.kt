@@ -199,16 +199,17 @@ class StatisticRepository(
     override fun putManualTable(b: ManualTableDTO): ManualTableDTO {
         ManualTable.deleteAll()
         ManualTable.insert {
-            it[n] = 0
-            it[i] = 0
-            it[vo] = 0
-            it[vb] = 0
-            it[pb] = 0
-            it[po] = 0
-            it[p] = 0
-            it[sh] = ""
-            it[o] = 0
-            it[pero] = 0.0
+            it[n] = b.n
+            it[i] = b.i
+            it[vo] = b.vo
+            it[vb] = b.vb
+            it[pb] = b.pb
+            it[po] = b.po
+            it[p] = b.p
+            it[sh] = b.sh
+            it[o] = b.o
+            it[pero] = b.pero
+            it[v] = b.v
         }
         return b
     }
@@ -218,6 +219,7 @@ class StatisticRepository(
             ManualTableDTO(
                 it[ManualTable.n],
                 it[ManualTable.i],
+                it[ManualTable.v],
                 it[ManualTable.vo],
                 it[ManualTable.vb],
                 it[ManualTable.pb],
@@ -227,6 +229,6 @@ class StatisticRepository(
                 it[ManualTable.o],
                 it[ManualTable.pero],
             )
-        } ?: ManualTableDTO(0, 0, 0, 0, 0, 0, 0, "", 0, 0.0)
+        } ?: ManualTableDTO(0, 0,0, 0, 0, 0, 0, 0, "", 0, 0.0)
     }
 }

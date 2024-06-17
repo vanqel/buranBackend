@@ -5,6 +5,7 @@ import org.jetbrains.exposed.sql.Table
 object ManualTable: Table("manual_table") {
     val n = long("n")
     val i = long("i")
+    val v = long("v")
     val vo = long("vo")
     val vb = long("vb")
     val pb = long("pb")
