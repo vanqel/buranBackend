@@ -4,14 +4,19 @@ import com.buran.core.auth.errors.GeneralError
 import com.buran.core.extensions.isNotNull
 import com.buran.core.extensions.isNull
 import com.buran.core.players.services.PlayerService
+import com.buran.core.seasone.core.models.SeasonEntity
 import com.buran.core.seasone.core.services.SeasonService
 import com.buran.core.seasone.matches.enums.MatchAction
+import com.buran.core.seasone.matches.models.MatchEntity
+import com.buran.core.seasone.matches.models.tables.MatchTable
+import com.buran.core.seasone.matches.models.tables.MatchTeams
 import com.buran.core.seasone.statistic.dto.*
 import com.buran.core.seasone.statistic.models.ManualTable
 import com.buran.core.seasone.statistic.models.MatchResultStatsView
 import com.buran.core.seasone.statistic.models.PlayerStatsView
 import com.buran.core.seasone.statistic.models.SeasonStatsView
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.jetbrains.exposed.sql.JoinType
 import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
@@ -24,10 +29,20 @@ import java.util.*
 class StatisticRepository(
     val playerService: PlayerService,
     val seasonService: SeasonService,
-    private val jacksonObjectMapper: ObjectMapper,
 ) : IStatisticRepository {
 
     override fun getStatisticPlayersBySeason(season: String): List<StatisticPlayer?> {
+
+        val s = seasonService.getSeasonFromTitle(season)
+
+        val playersBySeason = MatchTable.join(
+            MatchTeams, joinType = JoinType.LEFT
+        ).select(MatchTeams.team).where {
+            MatchTable.season eq s.id
+        }.map {
+            it[MatchTeams.team].value
+        }.toSet()
+
         val actions = PlayerStatsView.selectAll().where {
             PlayerStatsView.title eq season
         }.map {
@@ -38,7 +53,18 @@ class StatisticRepository(
                 it[PlayerStatsView.count],
                 it[PlayerStatsView.title],
             )
+        }.toMutableList()
+
+        val playersAllPlayed: MutableList<Long> = mutableListOf()
+        actions.forEach {
+            playersAllPlayed.add(it.playerId)
         }
+
+        playersBySeason.filter{it !in playersAllPlayed}.forEach {
+            actions.add(PlayerStatsRaw(it, 0, MatchAction.GOAL, 0, season))
+        }
+
+
         val players = actions.groupBy {
             it.playerId
         }.map { entry ->
@@ -229,6 +255,6 @@ class StatisticRepository(
                 it[ManualTable.o],
                 it[ManualTable.pero],
             )
-        } ?: ManualTableDTO(0, 0,0, 0, 0, 0, 0, 0, "", 0, 0.0)
+        } ?: ManualTableDTO(0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0.0)
     }
 }

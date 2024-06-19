@@ -17,9 +17,9 @@ import java.sql.SQLException
 @Transactional
 class AuthRepository: com.buran.core.auth.repository.IAuthRepository {
     override fun save(inputAuth: AuthInput): AuthOutput? {
-        if (UserLoginEntity.find { UserLoginTable.user eq inputAuth.userEntity.id }.exists()) {
-            UserLoginTable.deleteWhere { user eq inputAuth.userEntity.id.value }
-        }
+//        if (UserLoginEntity.find { UserLoginTable.user eq inputAuth.userEntity.id }.exists()) {
+//            UserLoginTable.deleteWhere { user eq inputAuth.userEntity.id.value }
+//        }
         UserLoginTable.insertAndGetId {
             it[user] = inputAuth.userEntity.id
             it[accesstoken] = inputAuth.accessToken
