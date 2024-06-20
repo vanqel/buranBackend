@@ -7,9 +7,8 @@ import org.jetbrains.exposed.sql.Table
 
 object PlayerStatsView: Table(name = "v_player_s_m")
 {
-    val playerId = reference("player_id", PlayerTable)
+    val playerId = reference("player_id", PlayerTable).nullable()
     val matchId = reference("match_id", MatchTable)
     val action = enumeration("action", MatchAction::class)
-    val count = long("count")
     val title = varchar("title", 255)
 }

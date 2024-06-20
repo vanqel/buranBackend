@@ -38,27 +38,35 @@ class StatisticRepository(
             it[MatchTeams.team].value
         }.toSet()
 
-        val actions = PlayerStatsView.selectAll().where {
+        val act = PlayerStatsView.selectAll().where {
             PlayerStatsView.title eq season
-        }.map {
+        }
+
+        val actions = act.map { row ->
+            val pl=  row[PlayerStatsView.playerId]!!.value
+            val acts = row[PlayerStatsView.action]
             PlayerStatsRaw(
-                it[PlayerStatsView.playerId].value,
-                it[PlayerStatsView.matchId].value,
-                it[PlayerStatsView.action],
-                it[PlayerStatsView.count],
-                it[PlayerStatsView.title],
+                pl,
+                row[PlayerStatsView.matchId].value,
+                acts,
+                act.filter {
+                    it[PlayerStatsView.playerId]!!.value == pl && it[PlayerStatsView.action] == acts
+                }.groupBy { it[PlayerStatsView.action] }.size.toLong(),
+                row[PlayerStatsView.title],
             )
         }.toMutableList()
 
         val playersAllPlayed: MutableList<Long> = mutableListOf()
+
+
         actions.forEach {
             playersAllPlayed.add(it.playerId)
         }
 
-        playersBySeason.filter { it !in playersAllPlayed }.forEach {
+
+        playersBySeason.filter { it !in playersAllPlayed.toSet() }.forEach {
             actions.add(PlayerStatsRaw(it, 0, MatchAction.GOAL, 0, season))
         }
-
 
         val players = actions.groupBy {
             it.playerId
@@ -73,24 +81,31 @@ class StatisticRepository(
             }
             StatisticPlayer(player, matchMap)
         }
+
         return players
     }
 
     override fun getStatisticMatchBySeason(match: Long): StatisticMatch {
-        val actions = PlayerStatsView.selectAll().where {
+        val act = PlayerStatsView.selectAll().where {
             PlayerStatsView.matchId eq match
         }.filter {
             if (it.isNull()) {
                 throw GeneralError("Матч не найден")
             }
             it.isNotNull()
-        }.map {
+        }
+
+        val actions = act.map { row ->
+            val pl=  row[PlayerStatsView.playerId]!!.value
+            val acts = row[PlayerStatsView.action]
             PlayerStatsRaw(
-                it[PlayerStatsView.playerId].value,
-                it[PlayerStatsView.matchId].value,
-                it[PlayerStatsView.action],
-                it[PlayerStatsView.count],
-                it[PlayerStatsView.title],
+                pl,
+                row[PlayerStatsView.matchId].value,
+                acts,
+                act.filter {
+                    it[PlayerStatsView.playerId]!!.value == pl && it[PlayerStatsView.action] == acts
+                }.groupBy { it[PlayerStatsView.action] }.size.toLong(),
+                row[PlayerStatsView.title],
             )
         }
         val matchMap: EnumMap<MatchAction, Long> = EnumMap(MatchAction::class.java)
@@ -108,18 +123,23 @@ class StatisticRepository(
     }
 
     fun getStatsPlayersFromMatch(mId: Long): List<StatisticPlayerScore?> {
-        val actions = PlayerStatsView.selectAll().where {
+        val act = PlayerStatsView.selectAll().where {
             PlayerStatsView.matchId eq mId
-        }.map {
-            PlayerStatsRaw(
-                it[PlayerStatsView.playerId].value,
-                it[PlayerStatsView.matchId].value,
-                it[PlayerStatsView.action],
-                it[PlayerStatsView.count],
-                it[PlayerStatsView.title],
-            )
         }
 
+        val actions = act.map { row ->
+            val pl=  row[PlayerStatsView.playerId]!!.value
+            val acts = row[PlayerStatsView.action]
+            PlayerStatsRaw(
+                pl,
+                row[PlayerStatsView.matchId].value,
+                acts,
+                act.filter {
+                    it[PlayerStatsView.playerId]!!.value == pl && it[PlayerStatsView.action] == acts
+                }.groupBy { it[PlayerStatsView.action] }.size.toLong(),
+                row[PlayerStatsView.title],
+            )
+        }
         val players = actions.groupBy {
             it.playerId
         }.map { entry ->
@@ -141,18 +161,23 @@ class StatisticRepository(
     }
 
     fun getStatsPlayersFromSeason(title: String): List<StatisticPlayerScore?> {
-        val actions = PlayerStatsView.selectAll().where {
+        val act = PlayerStatsView.selectAll().where {
             PlayerStatsView.title eq title
-        }.filterNotNull().map {
+        }.filterNotNull()
+
+
+        val actions = act.map { row ->
+            val pl=  row[PlayerStatsView.playerId]!!.value
+            val acts = row[PlayerStatsView.action]
             PlayerStatsRaw(
-                it[PlayerStatsView.playerId].value,
-                it[PlayerStatsView.matchId].value,
-                it[PlayerStatsView.action],
-                it[PlayerStatsView.count],
-                it[PlayerStatsView.title],
+                pl,
+                row[PlayerStatsView.matchId].value,
+                acts,
+                act.filter {
+                    it[PlayerStatsView.playerId]!!.value == pl && it[PlayerStatsView.action] == acts
+                }.groupBy { it[PlayerStatsView.action] }.size.toLong(),
+                row[PlayerStatsView.title],
             )
-        }.ifEmpty {
-            return listOf()
         }
 
         val players = actions.groupBy {
@@ -244,19 +269,19 @@ class StatisticRepository(
     override fun getManualTable(s: String): ManualTableDTO {
         return ManualTable.selectAll().where { ManualTable.season eq seasonService.getSeasonFromTitle(s).id }
             .firstOrNull()?.let {
-            ManualTableDTO(
-                it[ManualTable.n],
-                it[ManualTable.i],
-                it[ManualTable.v],
-                it[ManualTable.vo],
-                it[ManualTable.vb],
-                it[ManualTable.pb],
-                it[ManualTable.po],
-                it[ManualTable.p],
-                it[ManualTable.sh],
-                it[ManualTable.o],
-                it[ManualTable.pero],
-            )
-        } ?: ManualTableDTO(0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0.0)
+                ManualTableDTO(
+                    it[ManualTable.n],
+                    it[ManualTable.i],
+                    it[ManualTable.v],
+                    it[ManualTable.vo],
+                    it[ManualTable.vb],
+                    it[ManualTable.pb],
+                    it[ManualTable.po],
+                    it[ManualTable.p],
+                    it[ManualTable.sh],
+                    it[ManualTable.o],
+                    it[ManualTable.pero],
+                )
+            } ?: ManualTableDTO(0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0.0)
     }
 }
