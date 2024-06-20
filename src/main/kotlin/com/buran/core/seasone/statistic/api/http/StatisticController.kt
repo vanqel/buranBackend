@@ -50,8 +50,12 @@ class StatisticController(
     }
 
     @GetMapping("${RegAPI.STATISTIC_SEASON}/statsTable")
-    fun getStatsManual() = statisticRepository.getManualTable()
+    fun getStatsManual(
+        @RequestParam season: String,
+    ) = statisticRepository.getManualTable(season)
 
     @PutMapping("${RegAPI.STATISTIC_SEASON}/statsTable")
-    fun putStatsManual(@RequestBody stats: ManualTableDTO) = statisticRepository.putManualTable(stats)
+    fun putStatsManual(@RequestBody stats: ManualTableDTO,
+        @RequestParam season: String,
+    ) = statisticRepository.putManualTable(stats,season)
 }

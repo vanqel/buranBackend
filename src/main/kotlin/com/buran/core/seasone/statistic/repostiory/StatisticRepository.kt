@@ -4,10 +4,8 @@ import com.buran.core.auth.errors.GeneralError
 import com.buran.core.extensions.isNotNull
 import com.buran.core.extensions.isNull
 import com.buran.core.players.services.PlayerService
-import com.buran.core.seasone.core.models.SeasonEntity
 import com.buran.core.seasone.core.services.SeasonService
 import com.buran.core.seasone.matches.enums.MatchAction
-import com.buran.core.seasone.matches.models.MatchEntity
 import com.buran.core.seasone.matches.models.tables.MatchTable
 import com.buran.core.seasone.matches.models.tables.MatchTeams
 import com.buran.core.seasone.statistic.dto.*
@@ -15,11 +13,8 @@ import com.buran.core.seasone.statistic.models.ManualTable
 import com.buran.core.seasone.statistic.models.MatchResultStatsView
 import com.buran.core.seasone.statistic.models.PlayerStatsView
 import com.buran.core.seasone.statistic.models.SeasonStatsView
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.jetbrains.exposed.sql.JoinType
-import org.jetbrains.exposed.sql.deleteAll
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -60,7 +55,7 @@ class StatisticRepository(
             playersAllPlayed.add(it.playerId)
         }
 
-        playersBySeason.filter{it !in playersAllPlayed}.forEach {
+        playersBySeason.filter { it !in playersAllPlayed }.forEach {
             actions.add(PlayerStatsRaw(it, 0, MatchAction.GOAL, 0, season))
         }
 
@@ -222,9 +217,15 @@ class StatisticRepository(
     }
 
 
-    override fun putManualTable(b: ManualTableDTO): ManualTableDTO {
-        ManualTable.deleteAll()
+    override fun putManualTable(b: ManualTableDTO, s: String): ManualTableDTO {
+
+
+        val season_id = seasonService.getSeasonFromTitle(s)
+        ManualTable.deleteWhere {
+            season eq season_id.id
+        }
         ManualTable.insert {
+            it[season] = season_id.id
             it[n] = b.n
             it[i] = b.i
             it[vo] = b.vo
@@ -240,8 +241,9 @@ class StatisticRepository(
         return b
     }
 
-    override fun getManualTable(): ManualTableDTO {
-        return ManualTable.selectAll().firstOrNull()?.let {
+    override fun getManualTable(s: String): ManualTableDTO {
+        return ManualTable.selectAll().where { ManualTable.season eq seasonService.getSeasonFromTitle(s).id }
+            .firstOrNull()?.let {
             ManualTableDTO(
                 it[ManualTable.n],
                 it[ManualTable.i],

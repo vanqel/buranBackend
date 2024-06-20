@@ -28,7 +28,7 @@ interface IStatisticRepository {
         season: String,
     ): StatisticPlayer?
 
-    fun putManualTable(b: ManualTableDTO): ManualTableDTO
+    fun putManualTable(b: ManualTableDTO,s: String): ManualTableDTO
 
-    fun getManualTable(): ManualTableDTO
+    fun getManualTable(s: String): ManualTableDTO
 }
